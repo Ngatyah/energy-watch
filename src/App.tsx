@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import Constants from "./constants";
+import LoginForm from "./pages/LoginForm";
 
 function App() {
   return (
     <div className="App">
-      <Constants />
+      <LoginForm />
     </div>
   );
 }
