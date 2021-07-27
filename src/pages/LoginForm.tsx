@@ -1,8 +1,9 @@
 import { Form, Input, Button, Checkbox } from "antd";
-import "antd/dist/antd.css";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-const LoginForm = () => {
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
+
+const LoginForm: React.FunctionComponent<{}> = () => {
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
@@ -13,7 +14,6 @@ const LoginForm = () => {
         display: "flex",
         margin: "30vh",
         justifyContent: "center",
-        alignItems: "center",
       }}
     >
       <Form
@@ -23,12 +23,19 @@ const LoginForm = () => {
         onFinish={onFinish}
       >
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: "Please input your Username!" }]}
+          name="email"
+          rules={[
+            {
+              required: true,
+              type: "email",
+              message: "Please input your Email!",
+            },
+          ]}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
-            placeholder="Username"
+            placeholder="Email"
+            type="email"
           />
         </Form.Item>
         <Form.Item
@@ -59,7 +66,7 @@ const LoginForm = () => {
           >
             Log in
           </Button>
-          Or <a href=""> register now!</a>
+          Or <Link to="/register"> register now!</Link>
         </Form.Item>
       </Form>
     </div>

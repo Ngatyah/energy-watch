@@ -1,12 +1,27 @@
 import React from "react";
-import "./App.css";
-import LoginForm from "./pages/LoginForm";
+import {
+  Route,
+  RouteComponentProps,
+  Switch,
+  useHistory,
+} from "react-router-dom";
+import routes from "./configs/routes";
+import "./App.less";
 
 function App() {
   return (
-    <div className="App">
-      <LoginForm />
-    </div>
+    <Switch>
+      {routes.map((route, index) => {
+        return (
+          <Route
+            key={index}
+            path={route.path}
+            exact={route.exact}
+            render={(props: RouteComponentProps<any>) => <route.component />}
+          />
+        );
+      })}
+    </Switch>
   );
 }
 
