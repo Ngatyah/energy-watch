@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Route,
-  RouteComponentProps,
-  Switch,
-  useHistory,
-} from "react-router-dom";
+import { Route, RouteComponentProps, Switch } from "react-router-dom";
 import routes from "./configs/routes";
 import "./App.less";
 

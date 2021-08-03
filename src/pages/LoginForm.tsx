@@ -1,11 +1,13 @@
 import { Form, Input, Button, Checkbox } from "antd";
 
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const LoginForm: React.FunctionComponent<{}> = () => {
+  const history = useHistory();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    history.replace("/dashboard");
   };
 
   return (
@@ -22,6 +24,10 @@ const LoginForm: React.FunctionComponent<{}> = () => {
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >
+        <div>
+          <h1 style={{ color: "#008B8B" }}>Login </h1>
+          <p> Use your Email and Password to login Here</p>
+        </div>
         <Form.Item
           name="email"
           rules={[
@@ -53,7 +59,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
 
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" href="/">
             Forgot password
           </a>
         </Form.Item>
@@ -63,6 +69,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            block
           >
             Log in
           </Button>

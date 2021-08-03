@@ -1,52 +1,7 @@
 import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-} from "antd";
+import { Form, Input, Select, Checkbox, Button, AutoComplete } from "antd";
 
 const { Option } = Select;
-
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men",
-          },
-        ],
-      },
-    ],
-  },
-];
 
 const formItemLayout = {
   labelCol: {
@@ -80,9 +35,10 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
+      <Select style={{ width: 80 }}>
+        <Option value="86">+254</Option>
+        <Option value="255">+255</Option>
+        <Option value="256">+256</Option>
       </Select>
     </Form.Item>
   );
@@ -94,7 +50,7 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
       setAutoCompleteResult([]);
     } else {
       setAutoCompleteResult(
-        [".com", ".org", ".net"].map((domain) => `${value}${domain}`)
+        [".com", ".org", ".net", "co.ke"].map((domain) => `${value}${domain}`)
       );
     }
   };
@@ -118,11 +74,17 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
         name="register"
         onFinish={onFinish}
         initialValues={{
-          residence: ["zhejiang", "hangzhou", "xihu"],
-          prefix: "86",
+          residence: "Westlands Nairobi Kenya",
+          prefix: "254",
         }}
         scrollToFirstError
       >
+        <div>
+          <h1 style={{ color: "#008B8B" }}>Registration Form </h1>
+          <p>
+            Fill in the Form below to become a Registered Member of Energy Watch
+          </p>
+        </div>
         <Form.Item
           name="email"
           label="E-mail"
@@ -180,13 +142,13 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
         </Form.Item>
 
         <Form.Item
-          name="nickname"
-          label="Nickname"
-          tooltip="What do you want others to call you?"
+          name="company"
+          label="Company"
+          tooltip="Add Your Organization?"
           rules={[
             {
               required: true,
-              message: "Please input your nickname!",
+              message: "Please input your organization!",
               whitespace: true,
             },
           ]}
@@ -195,17 +157,16 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
         </Form.Item>
 
         <Form.Item
-          name="residence"
-          label="Habitual Residence"
+          name="Address"
+          label="Address"
           rules={[
             {
-              type: "array",
               required: true,
-              message: "Please select your habitual residence!",
+              message: "Please Enter your Address!",
             },
           ]}
         >
-          <Cascader options={residences} />
+          <Input />
         </Form.Item>
 
         <Form.Item
@@ -258,7 +219,7 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
           {...tailFormItemLayout}
         >
           <Checkbox>
-            I have read the <a href="">agreement</a>
+            I have read the <a href="/">agreement</a>
           </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
