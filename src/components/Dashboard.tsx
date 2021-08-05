@@ -1,10 +1,11 @@
 import "./Dashboard.module.css";
-import { Layout, Menu, Breadcrumb, Avatar, List, Row, Col } from "antd";
+import { Layout, Menu, Button, Breadcrumb, Avatar, List, Row, Col } from "antd";
 import {
   DesktopOutlined,
   AuditOutlined,
   DashboardOutlined,
   TeamOutlined,
+  PoweroffOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
@@ -55,22 +56,7 @@ const Dashboard: React.FunctionComponent<{}> = () => {
           style={{
             padding: 0,
           }}
-        >
-          <List.Item.Meta
-            style={{
-              color: "white",
-              margin: "20",
-            }}
-            avatar={
-              <Avatar src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
-            }
-            title={
-              <a href="/dashboard" style={{ color: "white" }}>
-                Hello
-              </a>
-            }
-          />
-        </Header>
+        ></Header>
         <Content style={{ margin: "0 16px" }}>
           <Breadcrumb style={{ margin: "16px 0" }}>
             <Breadcrumb.Item>User</Breadcrumb.Item>

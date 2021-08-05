@@ -7,6 +7,8 @@ const LoginForm: React.FunctionComponent<{}> = () => {
   const history = useHistory();
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    console.log(values.email);
+    console.log(values.password);
     history.replace("/dashboard");
   };
 
