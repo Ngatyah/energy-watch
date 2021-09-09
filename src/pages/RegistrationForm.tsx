@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Form, Input, Select, Checkbox, Button, AutoComplete } from "antd";
+import { LOGIN } from "../constants";
 
 const { Option } = Select;
 
@@ -27,10 +29,37 @@ const tailFormItemLayout = {
 };
 
 const RegistrationForm: React.FunctionComponent<{}> = () => {
+  const history = useHistory();
   const [form] = Form.useForm();
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log("Received values of form: ", values);
+    console.log(values.password);
+    console.log(values.email);
+
+    const res = await fetch(
+      "https://api-energy-watch.herokuapp.com/api/v1/users/",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+          phone: values.phone,
+          returnSecureToken: true,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (res.ok) {
+      console.log("Data Stored Successfully!!!");
+      alert("Registered Successfully");
+      console.log(res);
+      history.replace(LOGIN);
+    } else {
+      alert("Something Went Wrong!!");
+    }
   };
 
   const prefixSelector = (

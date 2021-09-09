@@ -2,14 +2,24 @@ import { Form, Input, Button, Checkbox } from "antd";
 
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
+import { DASHBOARD, REGISTRATION } from "../constants";
 
 const LoginForm: React.FunctionComponent<{}> = () => {
+  const form = new FormData();
+  form.set("greeting", "Hello, world!");
   const history = useHistory();
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log("Received values of form: ", values);
     console.log(values.email);
     console.log(values.password);
-    history.replace("/dashboard");
+    const response = await fetch("https://httpbin.org/post", {
+      method: "POST",
+      body: form,
+    });
+    const data = await response.json();
+
+    console.log(data);
+    history.replace(DASHBOARD);
   };
 
   return (
@@ -75,7 +85,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
           >
             Log in
           </Button>
-          Or <Link to="/register"> register now!</Link>
+          Or <Link to={REGISTRATION}> register now!</Link>
         </Form.Item>
       </Form>
     </div>

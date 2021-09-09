@@ -1,4 +1,4 @@
-const Constants = () => {
-  return <h1>Hello World</h1>;
-};
-export default Constants;
+//URLs
+export const DASHBOARD = "/dashboard";
+export const REGISTRATION = "/register";
+export const LOGIN = "/";
