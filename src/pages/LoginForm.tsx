@@ -2,7 +2,12 @@ import { Form, Input, Button, Checkbox } from "antd";
 
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
-import { DASHBOARD, REGISTRATION } from "../constants";
+import {
+  DASHBOARD,
+  REGISTRATION,
+  CLIENT_ID,
+  TOKEN_ENDPOINT,
+} from "../constants";
 
 const LoginForm: React.FunctionComponent<{}> = () => {
   const form = new FormData();
@@ -12,14 +17,28 @@ const LoginForm: React.FunctionComponent<{}> = () => {
     console.log("Received values of form: ", values);
     console.log(values.email);
     console.log(values.password);
-    const response = await fetch("https://httpbin.org/post", {
-      method: "POST",
-      body: form,
-    });
-    const data = await response.json();
+    const body = `username=${values.email}&password=${values.password}&grant_type=password&client_id=${CLIENT_ID}`;
+    console.log(body);
 
-    console.log(data);
-    history.replace(DASHBOARD);
+    const credentials = await fetch(TOKEN_ENDPOINT, {
+      method: "POST",
+      headers: {
+        // 'Authorization': `Bearer ${access_token}`,
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+      },
+      body: body,
+    })
+      .then((response) => response.json())
+      .then((responseData) => {
+        console.log(responseData);
+        return responseData;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    console.log(`Hello ${credentials}`);
+
+    // history.replace(DASHBOARD);
   };
 
   return (

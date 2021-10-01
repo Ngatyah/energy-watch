@@ -48,6 +48,7 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
           returnSecureToken: true,
         }),
         headers: {
+          // 'Authorization': `Bearer ${access_token}`,
           "Content-Type": "application/json",
         },
       }
@@ -260,4 +261,11 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
     </div>
   );
 };
+
+// const body = `username=${user}&password=${pass}&grant_type=${'password'}&client_id=${clientId}`;\
+
+// const user = this.LoginForm.value.username;
+//   const pass = this.LoginForm.value.password;
+//   const clientId = this.generalService.clientId;
+//   const body = `username=${user}&password=${pass}&grant_type=password&client_id=${clientId}`;
 export default RegistrationForm;

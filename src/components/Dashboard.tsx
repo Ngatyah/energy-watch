@@ -9,9 +9,10 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
-import { useHistory } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import EnergyGraph from "./EnergyGraph";
 import MeterPanel from "./MeterPanel";
+import { LOGIN } from "../constants";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -32,6 +33,7 @@ const Dashboard: React.FunctionComponent<{}> = () => {
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item key="1" icon={<DesktopOutlined />}>
+            <NavLink to={LOGIN}></NavLink>
             Dashboard
           </Menu.Item>
           <Menu.Item key="2" icon={<DashboardOutlined />}>
@@ -65,11 +67,9 @@ const Dashboard: React.FunctionComponent<{}> = () => {
           <div
             className="site-layout-background"
             style={{ padding: 24, minHeight: 360 }}
-          >
-            <EnergyGraph />
-          </div>
+          ></div>
         </Content>
-        <Footer style={{ textAlign: "end" }}>
+        <Footer style={{ textAlign: "center" }}>
           Energy Watch ©2021 Created by Tinga Art
         </Footer>
       </Layout>
