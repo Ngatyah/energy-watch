@@ -27,16 +27,16 @@ const LoginForm: React.FunctionComponent<{}> = () => {
         "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
       },
       body: body,
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
-        console.log(responseData);
-        return responseData;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    console.log(`Hello ${credentials}`);
+    });
+    // .then((response) => response.json())
+    // .then((responseData) => {
+    //   console.log(responseData);
+    //   return responseData;
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
+    console.log(`Hello ${credentials.json.length}`);
 
     // history.replace(DASHBOARD);
   };

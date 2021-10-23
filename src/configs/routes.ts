@@ -2,9 +2,10 @@ import IRoute from "../interfaces/route";
 import LoginForm from "../pages/LoginForm";
 import RegistrationForm from "../pages/RegistrationForm";
 import Dashboard from "../components/Dashboard";
-import { DASHBOARD, LOGIN, REGISTRATION } from "../constants";
+import { DASHBOARD, LOGIN, METERS_URL, REGISTRATION } from "../constants";
+import MeterPanel from "../components/MeterPanel";
 
-const routes: IRoute[] = [
+export const routes: IRoute[] = [
   {
     path: LOGIN,
     name: "login",
@@ -21,7 +22,22 @@ const routes: IRoute[] = [
     path: DASHBOARD,
     name: "dashboard",
     component: Dashboard,
-    exact: true,
+    exact: false,
   },
 ];
-export default routes;
+
+// Dashboard Routes
+export const dashboardRoutes: IRoute[] = [
+  {
+    path: METERS_URL,
+    name: "meters",
+    component: MeterPanel,
+    exact: true,
+  },
+  // {
+  //   path: METERS_URL,
+  //   name: "meters",
+  //   component: MeterPanel,
+  //   exact: true,
+  // },
+];

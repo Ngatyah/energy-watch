@@ -1,7 +1,8 @@
 import React from "react";
 import { Route, RouteComponentProps, Switch } from "react-router-dom";
-import routes from "./configs/routes";
+import { routes } from "./configs/routes";
 import "./App.less";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
