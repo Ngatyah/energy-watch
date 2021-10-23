@@ -1,7 +1,11 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import { Row, Typography } from "antd";
+import { Button, Divider, Row, Typography, Col, Card } from "antd";
 import { Chart, LineAdvance } from "bizcharts";
+import { Content } from "antd/lib/layout/layout";
+import DashboardOutlined from "@ant-design/icons/lib/icons/DashboardOutlined";
+import ShrinkOutlined from "@ant-design/icons/lib/icons/ShrinkOutlined";
+import BulbOutlined from "@ant-design/icons/lib/icons/BulbOutlined";
 
 const data = [
   {
@@ -171,9 +175,9 @@ const EnergyGraph = () => {
   let { Title } = Typography;
 
   return (
-    <Row>
-      <Fragment>
-        <Title>Dashboard</Title>
+    <Fragment>
+      <Title>Dashboard</Title>
+      <Row justify="space-around" align="middle">
         <Chart
           padding={[10, 20, 50, 40]}
           autoFit
@@ -189,8 +193,52 @@ const EnergyGraph = () => {
             color="city"
           />
         </Chart>
-      </Fragment>
-    </Row>
+        <Col>
+          <Card
+            title="Power Usage"
+            style={{ width: 200, height: 200 }}
+            bodyStyle={{ borderRadius: 50 }}
+          >
+            <Content>
+              <Row justify="space-around" align="middle">
+                <Col span={6}>
+                  {
+                    <BulbOutlined
+                      style={{
+                        fontSize: "42px",
+                        color: "#08c",
+                      }}
+                    />
+                  }
+                </Col>
+                <Divider type="vertical" />
+                <Col span={6} style={{ color: "black" }}>
+                  <Content
+                    style={{
+                      fontSize: "30px",
+                      color: "#08c",
+                    }}
+                  >
+                    53.0
+                  </Content>
+                  <Content
+                    style={{
+                      fontSize: "18px",
+                      color: "#08c",
+                    }}
+                  >
+                    kWhs
+                  </Content>
+                </Col>
+              </Row>
+            </Content>
+          </Card>
+        </Col>
+
+        <Divider orientation="right">Align Top</Divider>
+        <Button>Click Here </Button>
+      </Row>
+    </Fragment>
   );
 };
 
