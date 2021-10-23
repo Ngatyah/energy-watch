@@ -2,8 +2,15 @@ import IRoute from "../interfaces/route";
 import LoginForm from "../pages/LoginForm";
 import RegistrationForm from "../pages/RegistrationForm";
 import Dashboard from "../components/Dashboard";
-import { DASHBOARD, LOGIN, METERS_URL, REGISTRATION } from "../constants";
+import {
+  DASHBOARD,
+  GRAPH_URL,
+  LOGIN,
+  METERS_URL,
+  REGISTRATION,
+} from "../constants";
 import MeterPanel from "../components/MeterPanel";
+import EnergyGraph from "../components/EnergyGraph";
 
 export const routes: IRoute[] = [
   {
@@ -34,10 +41,10 @@ export const dashboardRoutes: IRoute[] = [
     component: MeterPanel,
     exact: true,
   },
-  // {
-  //   path: METERS_URL,
-  //   name: "meters",
-  //   component: MeterPanel,
-  //   exact: true,
-  // },
+  {
+    path: GRAPH_URL,
+    name: "graphs",
+    component: EnergyGraph,
+    exact: true,
+  },
 ];

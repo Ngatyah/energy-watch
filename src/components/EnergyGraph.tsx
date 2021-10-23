@@ -1,9 +1,8 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import { Typography } from "antd";
+import { Row, Typography } from "antd";
 import { Chart, LineAdvance } from "bizcharts";
 
-// 数据源
 const data = [
   {
     month: "Jan",
@@ -172,24 +171,26 @@ const EnergyGraph = () => {
   let { Title } = Typography;
 
   return (
-    <Fragment>
-      <Title>Dashboard</Title>
-      <Chart
-        padding={[10, 20, 50, 40]}
-        autoFit
-        height={300}
-        width={"100vh"}
-        data={data}
-      >
-        <LineAdvance
-          shape="smooth"
-          point
-          area
-          position="month*temperature"
-          color="city"
-        />
-      </Chart>
-    </Fragment>
+    <Row>
+      <Fragment>
+        <Title>Dashboard</Title>
+        <Chart
+          padding={[10, 20, 50, 40]}
+          autoFit
+          height={300}
+          width={"100vh"}
+          data={data}
+        >
+          <LineAdvance
+            shape="smooth"
+            point
+            area
+            position="month*temperature"
+            color="city"
+          />
+        </Chart>
+      </Fragment>
+    </Row>
   );
 };
 

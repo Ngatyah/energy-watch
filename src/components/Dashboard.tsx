@@ -10,15 +10,11 @@ import {
   DesktopOutlined,
   AuditOutlined,
   DashboardOutlined,
-  TeamOutlined,
-  PoweroffOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import EnergyGraph from "./EnergyGraph";
-import MeterPanel from "./MeterPanel";
-import { LOGIN, METERS_URL } from "../constants";
+import { LOGIN, METERS_URL, GRAPH_URL } from "../constants";
 import { dashboardRoutes } from "../configs/routes";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -42,7 +38,7 @@ const Dashboard: any = (props: any) => {
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
             <Menu.Item key="1" icon={<DesktopOutlined />}>
-              <NavLink to={LOGIN}></NavLink>
+              <NavLink to={GRAPH_URL}></NavLink>
               Dashboard
             </Menu.Item>
             <Menu.Item key="2" icon={<DashboardOutlined />}>
