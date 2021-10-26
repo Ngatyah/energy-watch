@@ -6,11 +6,13 @@ import {
   DASHBOARD,
   GRAPH_URL,
   LOGIN,
+  METERFORM,
   METERS_URL,
   REGISTRATION,
 } from "../constants";
 import MeterPanel from "../components/MeterPanel";
 import EnergyGraph from "../components/EnergyGraph";
+import MeterForm from "../pages/MeterForm";
 
 export const routes: IRoute[] = [
   {
@@ -45,6 +47,12 @@ export const dashboardRoutes: IRoute[] = [
     path: GRAPH_URL,
     name: "graphs",
     component: EnergyGraph,
+    exact: true,
+  },
+  {
+    path: METERFORM,
+    name: "meterform",
+    component: MeterForm,
     exact: true,
   },
 ];
