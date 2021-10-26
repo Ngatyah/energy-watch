@@ -1,6 +1,6 @@
-import { Table, Typography, Input, Button, Space } from "antd";
+import { Table, Typography, Input, Button, Space, Row } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 
 const columns = [
   {
@@ -63,7 +63,11 @@ const MeterPanel = () => {
 
   return (
     <Fragment>
-      <Title>Meter Panel</Title>
+      <Row justify="space-between" align="middle">
+        <Title>Meter Panel</Title>
+        <Button>Add Meter</Button>
+      </Row>
+
       <Table dataSource={data} columns={columns} />
     </Fragment>
   );
