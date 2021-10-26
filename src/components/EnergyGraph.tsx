@@ -3,8 +3,6 @@ import ReactDOM from "react-dom";
 import { Button, Divider, Row, Typography, Col, Card } from "antd";
 import { Chart, LineAdvance } from "bizcharts";
 import { Content } from "antd/lib/layout/layout";
-import DashboardOutlined from "@ant-design/icons/lib/icons/DashboardOutlined";
-import ShrinkOutlined from "@ant-design/icons/lib/icons/ShrinkOutlined";
 import BulbOutlined from "@ant-design/icons/lib/icons/BulbOutlined";
 
 const data = [
@@ -177,7 +175,7 @@ const EnergyGraph = () => {
   return (
     <Fragment>
       <Title>Dashboard</Title>
-      <Row justify="space-around" align="middle">
+      <Row justify="space-around" align="middle" wrap>
         <Chart
           padding={[10, 20, 50, 40]}
           autoFit
@@ -206,12 +204,12 @@ const EnergyGraph = () => {
                     <BulbOutlined
                       style={{
                         fontSize: "42px",
-                        color: "#08c",
+                        color: "yellow",
                       }}
                     />
                   }
                 </Col>
-                <Divider type="vertical" />
+                <Divider type="vertical" style={{ height: 100 }} />
                 <Col span={6} style={{ color: "black" }}>
                   <Content
                     style={{
@@ -219,7 +217,7 @@ const EnergyGraph = () => {
                       color: "#08c",
                     }}
                   >
-                    53.0
+                    15.3
                   </Content>
                   <Content
                     style={{

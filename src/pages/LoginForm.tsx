@@ -38,7 +38,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
     // });
     console.log(`Hello ${credentials.json.length}`);
 
-    // history.replace(DASHBOARD);
+    history.replace("dashboard/graphs");
   };
 
   return (
