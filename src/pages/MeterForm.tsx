@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
+import { useHistory } from "react-router-dom";
+import { METERS_URL } from "../constants";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
-  const onFinish = async (values: any) => {};
+  const history = useHistory();
+  const onFinish = async (values: any) => {
+    console.log("Success:", values);
+    history.replace(METERS_URL);
+  };
 
   return (
     <div
@@ -50,7 +56,6 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           rules={[
             {
               required: true,
-              message: "Please Enter your Address!",
             },
           ]}
         >
@@ -62,7 +67,6 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           rules={[
             {
               required: true,
-              message: "Please Enter your Address!",
             },
           ]}
         >
@@ -74,7 +78,6 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           rules={[
             {
               required: true,
-              message: "Please Enter your Address!",
             },
           ]}
         >
@@ -86,7 +89,6 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           rules={[
             {
               required: true,
-              message: "Please Enter your Address!",
             },
           ]}
         >
@@ -97,6 +99,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
             type="primary"
             htmlType="submit"
             className="login-form-button"
+            block
           >
             Submit
           </Button>

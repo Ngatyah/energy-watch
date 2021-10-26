@@ -3,10 +3,10 @@ import { Form, Input, Button, Checkbox } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
 import {
-  DASHBOARD,
   REGISTRATION,
   CLIENT_ID,
   TOKEN_ENDPOINT,
+  GRAPH_URL,
 } from "../constants";
 
 const LoginForm: React.FunctionComponent<{}> = () => {
@@ -38,7 +38,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
     // });
     console.log(`Hello ${credentials.json.length}`);
 
-    history.replace("dashboard/graphs");
+    history.replace(GRAPH_URL);
   };
 
   return (

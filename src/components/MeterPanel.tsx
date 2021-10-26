@@ -1,6 +1,8 @@
 import { Table, Typography, Input, Button, Space, Row } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
+import { useHistory } from "react-router";
+import { METERFORM } from "../constants";
 
 const columns = [
   {
@@ -55,17 +57,22 @@ const data = [
     condition: "OK",
   },
 ];
+
 const MeterPanel = () => {
   let { Title } = Typography;
+  const history = useHistory();
 
-  //   const [searchText, setSearchText] = useState('');
-  //   const [searchedColumn,SetSearchedColumn]= useState('');
+  const onButtonClick = () => {
+    history.replace(METERFORM);
+  };
 
   return (
     <Fragment>
       <Row justify="space-between" align="middle">
         <Title>Meter Panel</Title>
-        <Button>Add Meter</Button>
+        <Button type="primary" onClick={onButtonClick}>
+          Add Meter
+        </Button>
       </Row>
 
       <Table dataSource={data} columns={columns} />
