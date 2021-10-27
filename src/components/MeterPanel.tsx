@@ -34,9 +34,15 @@ const columns = [
     dataIndex: "actions",
     render: () => (
       <Space size="large">
-        <a>{<EyeOutlined style={{ fontSize: "20px" }} />}</a>
-        <a>{<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}</a>
-        <a>{<DeleteOutlined style={{ fontSize: "20px", color: "red" }} />}</a>
+        <Button type="text">
+          {<EyeOutlined style={{ fontSize: "20px" }} />}
+        </Button>
+        <Button type="text">
+          {<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}
+        </Button>
+        <Button type="text">
+          {<DeleteOutlined style={{ fontSize: "20px", color: "red" }} />}
+        </Button>
       </Space>
     ),
   },

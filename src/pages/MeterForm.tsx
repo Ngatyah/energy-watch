@@ -74,23 +74,12 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          name="Address"
-          label="Address"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
           name="site"
           label="SITES"
           rules={[{ required: true, message: "Select a site" }]}
         >
           <Select placeholder="Select the meter site">
-            <Option value="site_1">Site 1</Option>
+            <Option value="Site_1">site 1</Option>
             <Option value="site_2">Site 2</Option>
             <Option value="site_3">Site 3</Option>
             <Option value="site_4">Site 4</Option>
