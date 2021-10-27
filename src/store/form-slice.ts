@@ -16,7 +16,10 @@ const formSlice = createSlice({
         id: newItem.id,
       });
     },
-    removeItemFromTable() {},
+    removeItemFromTable(state, action) {
+      const id = action.payload;
+      state.items = state.items.filter((item) => item.id !== id);
+    },
     editItemInTable() {},
   },
 });

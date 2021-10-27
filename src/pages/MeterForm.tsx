@@ -19,6 +19,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
         model: values["Model"],
         serial: values["Serial"],
         id: uuid(),
+        key: uuid(),
       })
     );
   };

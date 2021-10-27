@@ -4,7 +4,7 @@ export const REGISTRATION = "/register";
 export const LOGIN = "/";
 export const METERS_URL = "/dashboard/meters";
 export const GRAPH_URL = "/dashboard/graphs";
-export const METERFORM = "/dashboard/meterform";
+export const METERFORM = "/dashboard/add/meter";
 //API end points
 export const BASE_URL = "https://api-energy-watch.herokuapp.com";
 export const TOKEN_ENDPOINT = `${BASE_URL}/auth/token/`;
