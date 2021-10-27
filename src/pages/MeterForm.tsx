@@ -1,14 +1,26 @@
+import { useDispatch } from "react-redux";
 import React, { useState } from "react";
-import { Form, Input, Select, Checkbox, Button, AutoComplete } from "antd";
+import { Form, Input, Select, Checkbox, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../constants";
+import { formActions } from "../store/form-slice";
+import { uuid } from "uuidv4";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
+  const dispatch = useDispatch();
   const { Option } = Select;
   const history = useHistory();
   const onFinish = async (values: any) => {
-    console.log("Success:", values);
+    console.log("Success:", values["Serial"], values["Model"], values["site"]);
     history.replace(METERS_URL);
+    dispatch(
+      formActions.addItemsToTable({
+        site: values["site"],
+        model: values["Model"],
+        serial: values["Serial"],
+        id: uuid(),
+      })
+    );
   };
   const formItemLayout = {
     labelCol: {
@@ -79,11 +91,11 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           rules={[{ required: true, message: "Select a site" }]}
         >
           <Select placeholder="Select the meter site">
-            <Option value="Site_1">site 1</Option>
-            <Option value="site_2">Site 2</Option>
-            <Option value="site_3">Site 3</Option>
-            <Option value="site_4">Site 4</Option>
-            <Option value="site_5">Site 5</Option>
+            <Option value="Site 1">site 1</Option>
+            <Option value="site 2">Site 2</Option>
+            <Option value="site 3">Site 3</Option>
+            <Option value="site 4">Site 4</Option>
+            <Option value="site 5">Site 5</Option>
           </Select>
         </Form.Item>
         <Form.Item>
