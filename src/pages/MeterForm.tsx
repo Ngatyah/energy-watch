@@ -1,13 +1,24 @@
 import React, { useState } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Select, Checkbox, Button, AutoComplete } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../constants";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
+  const { Option } = Select;
   const history = useHistory();
   const onFinish = async (values: any) => {
     console.log("Success:", values);
     history.replace(METERS_URL);
+  };
+  const formItemLayout = {
+    labelCol: {
+      xs: { span: 24 },
+      sm: { span: 8 },
+    },
+    wrapperCol: {
+      xs: { span: 24 },
+      sm: { span: 16 },
+    },
   };
 
   return (
@@ -19,6 +30,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
       }}
     >
       <Form
+        {...formItemLayout}
         name="normal_login"
         className="login-form"
         initialValues={{ remember: true }}
@@ -26,11 +38,11 @@ const MeterForm: React.FunctionComponent<{}> = () => {
       >
         <div>
           <h1 style={{ color: "#008B8B" }}>Add Meter </h1>
-          <p> Enter the New Meter Details Here</p>
+          <p> Enter the New Meter Details Here. Fill all the Fields</p>
         </div>
         <Form.Item
-          name="Name"
-          label="NAME"
+          name="Serial"
+          label="SERIAL No"
           rules={[
             {
               required: true,
@@ -40,8 +52,8 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          name="Serial"
-          label="SERIAL NUMBER"
+          name="Model"
+          label="MODEL"
           rules={[
             {
               required: true,
@@ -73,26 +85,17 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          name="Site"
-          label="SITE"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
+          name="site"
+          label="SITES"
+          rules={[{ required: true, message: "Select a site" }]}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="Address"
-          label="Address"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
+          <Select placeholder="Select the meter site">
+            <Option value="site_1">Site 1</Option>
+            <Option value="site_2">Site 2</Option>
+            <Option value="site_3">Site 3</Option>
+            <Option value="site_4">Site 4</Option>
+            <Option value="site_5">Site 5</Option>
+          </Select>
         </Form.Item>
         <Form.Item>
           <Button

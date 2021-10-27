@@ -193,7 +193,7 @@ const EnergyGraph = () => {
         </Chart>
         <Col>
           <Card
-            title="Power Usage"
+            title="ENERGY USAGE"
             style={{ width: 200, height: 200 }}
             bodyStyle={{ borderRadius: 50 }}
           >
@@ -225,7 +225,7 @@ const EnergyGraph = () => {
                       color: "#08c",
                     }}
                   >
-                    kWhs
+                    kWh
                   </Content>
                 </Col>
               </Row>

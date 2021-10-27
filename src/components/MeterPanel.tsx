@@ -1,5 +1,5 @@
 import { Table, Typography, Input, Button, Space, Row } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
 import { useHistory } from "react-router";
 import { METERFORM } from "../constants";
@@ -22,12 +22,23 @@ const columns = [
     },
   },
   {
-    title: "Condition",
-    dataIndex: "condition",
+    title: "Site",
+    dataIndex: "site",
     sorter: {
       compare: (a: any, b: any) => a.math - b.math,
       multiple: 2,
     },
+  },
+  {
+    title: "Actions",
+    dataIndex: "actions",
+    render: () => (
+      <Space size="large">
+        <a>{<EyeOutlined style={{ fontSize: "20px" }} />}</a>
+        <a>{<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}</a>
+        <a>{<DeleteOutlined style={{ fontSize: "20px", color: "red" }} />}</a>
+      </Space>
+    ),
   },
 ];
 
@@ -36,25 +47,25 @@ const data = [
     key: "1",
     serial: "123443243",
     model: "6M",
-    condition: "OK",
+    site: "site 1",
   },
   {
     key: "2",
     serial: "1234433",
     model: "6M",
-    condition: "OK",
+    site: "site 2",
   },
   {
     key: "3",
     serial: "123443243",
     model: "6M",
-    condition: "OK",
+    site: "site 2",
   },
   {
     key: "4",
     serial: "123443243",
-    model: "6M4",
-    condition: "OK",
+    model: "6M",
+    site: "site 4",
   },
 ];
 
