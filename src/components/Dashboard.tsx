@@ -14,7 +14,7 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { LOGIN, METERS_URL, GRAPH_URL } from "../constants";
+import { METERS_URL, GRAPH_URL } from "../constants";
 import { dashboardRoutes } from "../configs/routes";
 
 const { Header, Content, Footer, Sider } = Layout;

@@ -4,9 +4,12 @@ import { Form, Input, Select, Checkbox, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../constants";
 import { formActions } from "../store/form-slice";
+import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
+  const { id }: { id: string } = useParams();
+  console.log(id);
   const dispatch = useDispatch();
   const { Option } = Select;
   const history = useHistory();

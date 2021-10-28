@@ -1,12 +1,11 @@
 import { useSelector, useDispatch } from "react-redux";
-import { Table, Typography, Input, Button, Space, Row } from "antd";
+import { Table, Typography, Button, Space, Row } from "antd";
 import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import { useHistory } from "react-router";
-import { METERFORM } from "../constants";
-import { uuid } from "uuidv4";
+import { ADD_METER } from "../constants";
 import { formActions } from "../store/form-slice";
-import { idText } from "typescript";
+import { Link, useParams } from "react-router-dom";
 
 // const data = [
 //   {
@@ -46,7 +45,7 @@ const MeterPanel = () => {
   const history = useHistory();
 
   const onButtonClick = () => {
-    history.replace(METERFORM);
+    history.replace(ADD_METER);
   };
   const removeItemHandler = (id: any) => {
     dispatch(formActions.removeItemFromTable(id));
@@ -86,7 +85,9 @@ const MeterPanel = () => {
             {<EyeOutlined style={{ fontSize: "20px" }} />}
           </Button>
           <Button type="text">
-            {<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}
+            <Link to={"/dashboard/edit/meter/" + row.id}>
+              {<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}
+            </Link>
           </Button>
           <Button type="text" onClick={() => removeItemHandler(row.id)}>
             {<DeleteOutlined style={{ fontSize: "20px", color: "red" }} />}
