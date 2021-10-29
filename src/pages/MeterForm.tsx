@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
@@ -9,13 +9,22 @@ import { uuid } from "uuidv4";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
   const { id }: { id: string } = useParams();
+  const formData = useSelector((state: any) => state.form.items);
+  const data = formData.find((item: any) => item.id === id);
+
   console.log(id);
   const dispatch = useDispatch();
   const { Option } = Select;
   const history = useHistory();
+  const removeItemHandler = (id: any) => {
+    dispatch(formActions.removeItemFromTable(id));
+  };
   const onFinish = async (values: any) => {
     console.log("Success:", values["Serial"], values["Model"], values["site"]);
     history.replace(METERS_URL);
+    if (id) {
+      removeItemHandler(id);
+    }
     dispatch(
       formActions.addItemsToTable({
         site: values["site"],
@@ -49,7 +58,13 @@ const MeterForm: React.FunctionComponent<{}> = () => {
         {...formItemLayout}
         name="normal_login"
         className="login-form"
-        initialValues={{ remember: true }}
+        initialValues={{
+          remember: true,
+          Serial: id ? data["serial"] : "",
+          Model: id ? data["model"] : "",
+          site: id ? data["site"] : "",
+          Id: id ? data["id"] : "",
+        }}
         onFinish={onFinish}
       >
         <div>
@@ -70,17 +85,6 @@ const MeterForm: React.FunctionComponent<{}> = () => {
         <Form.Item
           name="Model"
           label="MODEL"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="Id"
-          label="ID"
           rules={[
             {
               required: true,
