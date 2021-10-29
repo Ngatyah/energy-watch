@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import React, { useState } from "react";
-import { Form, Input, Select, Checkbox, Button } from "antd";
+import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../constants";
 import { formActions } from "../store/form-slice";
