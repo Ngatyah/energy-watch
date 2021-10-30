@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
+import React from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../../constants";
