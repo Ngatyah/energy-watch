@@ -10,6 +10,9 @@ export let EDIT_METER = "/dashboard/edit/meter/:id";
 //API end points
 export const BASE_URL = "https://api-energy-watch.herokuapp.com";
 export const TOKEN_ENDPOINT = `${BASE_URL}/auth/token/`;
+export const BASE_URL_V1 = `${BASE_URL}/api/v1`
+export const USER_PROFILE_ENDPOINT = '/users/me/'
+export const METERS_ENDPOINT = '/meters/'
 
 //ids
 export const CLIENT_ID = "fbaPXGrD6wewVEqoOkJfvierIrYbnROPXMa8CDv5";
