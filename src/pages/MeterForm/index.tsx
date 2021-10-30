@@ -2,15 +2,24 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_URL } from "../constants";
-import { formActions } from "../store/form-slice";
+import { METERS_URL } from "../../constants";
+import { formActions } from "../../store/form-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
+  let initialValues = {};
   const { id }: { id: string } = useParams();
   const formData = useSelector((state: any) => state.form.items);
-  const data = formData.find((item: any) => item.id === id);
+  if (id) {
+    const data = formData.find((item: any) => item.id === id);
+    initialValues = {
+      Serial: data["serial"],
+      Model: data["model"],
+      site: data["site"],
+      Id: data["id"],
+    };
+  }
 
   console.log(id);
   const dispatch = useDispatch();
@@ -58,13 +67,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
         {...formItemLayout}
         name="normal_login"
         className="login-form"
-        initialValues={{
-          remember: true,
-          Serial: id ? data["serial"] : "",
-          Model: id ? data["model"] : "",
-          site: id ? data["site"] : "",
-          Id: id ? data["id"] : "",
-        }}
+        initialValues={initialValues}
         onFinish={onFinish}
       >
         <div>

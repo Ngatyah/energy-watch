@@ -3,9 +3,9 @@ import { Table, Typography, Button, Space, Row } from "antd";
 import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
 import { useHistory } from "react-router";
-import { ADD_METER } from "../constants";
-import { formActions } from "../store/form-slice";
 import { Link, useParams } from "react-router-dom";
+import { formActions } from "../../store/form-slice";
+import { ADD_METER } from "../../constants";
 
 // const data = [
 //   {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Form, Input, Select, Checkbox, Button, AutoComplete } from "antd";
-import { LOGIN } from "../constants";
+import { LOGIN } from "../../constants";
 
 const { Option } = Select;
 

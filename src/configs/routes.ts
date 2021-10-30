@@ -11,9 +11,9 @@ import {
   REGISTRATION,
   EDIT_METER,
 } from "../constants";
-import MeterPanel from "../components/MeterPanel";
 import EnergyGraph from "../components/EnergyGraph";
 import MeterForm from "../pages/MeterForm";
+import MeterPanel from "../components/MeterPanel";
 
 export const routes: IRoute[] = [
   {
