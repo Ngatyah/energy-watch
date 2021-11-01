@@ -1,15 +1,15 @@
-import { IncomingHttpHeaders } from 'http';
-import queryString from 'querystring';
-import { BASE_URL_V1 } from '../../constants';
+import { IncomingHttpHeaders } from "http";
+import queryString from "querystring";
+import { BASE_URL_V1 } from "../../constants";
 
-import { throwNetworkError, throwHTTPError } from './errors';
+import { throwNetworkError, throwHTTPError } from "./errors";
 
 export interface Dictionary<T = any> {
   [key: string]: T;
 }
 
 /** allowed http methods */
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+export type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";
 
 /** get default HTTP headers for Django service
  *
@@ -21,14 +21,14 @@ export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
  */
 export function getDefaultHeaders(
   accessToken: string,
-  accept = 'application/json',
-  authorizationType = 'Bearer',
-  contentType = 'application/json'
+  accept = "application/json",
+  authorizationType = "Bearer",
+  contentType = "application/json"
 ): IncomingHttpHeaders {
   return {
     accept,
     authorization: `${authorizationType} ${accessToken}`,
-    'content-type': contentType,
+    "content-type": contentType,
   };
 }
 
@@ -60,7 +60,9 @@ export interface URLParams {
 }
 
 export interface CustomFetch {
-  (input: RequestInfo, init?: RequestInit | undefined): Promise<Response | undefined>;
+  (input: RequestInfo, init?: RequestInit | undefined): Promise<
+    Response | undefined
+  >;
 }
 
 export const customFetch: CustomFetch = async (...rest) => {
@@ -94,7 +96,7 @@ export class DjangoService<PayloadT extends object = Dictionary> {
    */
   constructor(
     endpoint: string,
-    accessToken: string = '<fetch token from store>',
+    accessToken: string = "<fetch token from store>",
     baseURL: string = BASE_URL_V1,
     getOptions: typeof getFetchOptions = getFetchOptions,
     signal: AbortSignal = new AbortController().signal
@@ -106,7 +108,6 @@ export class DjangoService<PayloadT extends object = Dictionary> {
     this.generalURL = `${this.baseURL}${this.endpoint}`;
     this.accessToken = accessToken;
   }
- 
 
   /** appends any query params to the url as a querystring
    *
@@ -116,7 +117,9 @@ export class DjangoService<PayloadT extends object = Dictionary> {
    */
   public static getURL(generalUrl: string, params: paramsType): string {
     if (params) {
-      return `${generalUrl}?${decodeURIComponent(queryString.stringify(params))}`;
+      return `${generalUrl}?${decodeURIComponent(
+        queryString.stringify(params)
+      )}`;
     }
     return generalUrl;
   }
@@ -126,12 +129,13 @@ export class DjangoService<PayloadT extends object = Dictionary> {
    * @param {object} obj - the object representing filter params
    * @returns {string} filter params as a string
    */
-  public static getFilterParams(obj: URLParams | Record<string, unknown>): string {
+  public static getFilterParams(
+    obj: URLParams | Record<string, unknown>
+  ): string {
     return Object.entries(obj)
       .map(([key, val]) => `${key}:${val}`)
-      .join(',');
+      .join(",");
   }
-
 
   /** create method
    * Send a POST request to the general endpoint containing the new object data
@@ -145,13 +149,13 @@ export class DjangoService<PayloadT extends object = Dictionary> {
   public async create(
     data: PayloadT,
     params: paramsType = null,
-    method: HTTPMethod = 'POST'
+    method: HTTPMethod = "POST"
   ): Promise<Record<string, unknown>> {
-    const url = DjangoService.getURL(this.generalURL, params);;
+    const url = DjangoService.getURL(this.generalURL, params);
     const payload = {
       ...this.getOptions<PayloadT>(this.signal, this.accessToken, method, data),
-      'Cache-Control': 'no-cache',
-      Pragma: 'no-cache',
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
     };
     const response = await customFetch(url, payload);
     if (response) {
@@ -178,11 +182,14 @@ export class DjangoService<PayloadT extends object = Dictionary> {
   public async read(
     id: string | number,
     params: paramsType = null,
-    method: HTTPMethod = 'GET'
+    method: HTTPMethod = "GET"
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
     const url = DjangoService.getURL(`${this.generalURL}/${id}`, params);
-    const response = await customFetch(url, this.getOptions(this.signal, this.accessToken, method));
+    const response = await customFetch(
+      url,
+      this.getOptions(this.signal, this.accessToken, method)
+    );
 
     if (response) {
       if (response.ok) {
@@ -206,13 +213,13 @@ export class DjangoService<PayloadT extends object = Dictionary> {
     id: string | number,
     data: PayloadT,
     params: paramsType = null,
-    method: HTTPMethod = 'PUT'
+    method: HTTPMethod = "PUT"
   ): Promise<Record<string, unknown>> {
     const url = DjangoService.getURL(`${this.generalURL}/${id}`, params);
     const payload = {
-      ...this.getOptions<PayloadT>(this.signal,  this.accessToken, method, data),
-      'Cache-Control': 'no-cache',
-      Pragma: 'no-cache',
+      ...this.getOptions<PayloadT>(this.signal, this.accessToken, method, data),
+      "Cache-Control": "no-cache",
+      Pragma: "no-cache",
     };
     const response = await customFetch(url, payload);
     if (response) {
@@ -234,9 +241,15 @@ export class DjangoService<PayloadT extends object = Dictionary> {
    * @returns {object} list of objects returned by API
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async list(params: paramsType = null, method: HTTPMethod = 'GET'): Promise<any> {
+  public async list(
+    params: paramsType = null,
+    method: HTTPMethod = "GET"
+  ): Promise<any> {
     const url = DjangoService.getURL(this.generalURL, params);
-    const response = await customFetch(url, this.getOptions(this.signal, this.accessToken, method));
+    const response = await customFetch(
+      url,
+      this.getOptions(this.signal, this.accessToken, method)
+    );
 
     if (response) {
       if (response.ok) {
@@ -259,10 +272,13 @@ export class DjangoService<PayloadT extends object = Dictionary> {
   public async delete(
     id: number | string,
     params: paramsType = null,
-    method: HTTPMethod = 'DELETE'
+    method: HTTPMethod = "DELETE"
   ): Promise<Record<string, unknown>> {
     const url = DjangoService.getURL(`${this.generalURL}/${id}`, params);
-    const response = await fetch(url, this.getOptions(this.signal, this.accessToken, method));
+    const response = await fetch(
+      url,
+      this.getOptions(this.signal, this.accessToken, method)
+    );
     if (response.ok || response.status === 204 || response.status === 200) {
       return {};
     }

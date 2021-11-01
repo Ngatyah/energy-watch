@@ -4,7 +4,6 @@ import {
   RouteComponentProps,
   Switch,
 } from "react-router-dom";
-import "./Dashboard.module.css";
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
