@@ -28,7 +28,6 @@ const Dashboard: any = (props: any) => {
   const onSiteHandler = () => {
     history.push("/");
   };
-  console.log(props.match);
 
   return (
     <Router>
