@@ -28,15 +28,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
       },
       body: body,
     });
-    // .then((response) => response.json())
-    // .then((responseData) => {
-    //   console.log(responseData);
-    //   return responseData;
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
-    console.log(`Hello ${credentials.json.length}`);
+    console.log(credentials);
 
     history.replace(GRAPH_URL);
   };
