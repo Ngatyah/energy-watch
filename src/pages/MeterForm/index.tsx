@@ -3,14 +3,14 @@ import React from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../../constants";
-import { formActions } from "../../store/form-slice";
+import { formActions } from "../../store/meter-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
   let initialValues = {};
   const { id }: { id: string } = useParams();
-  const formData = useSelector((state: any) => state.form.items);
+  const formData = useSelector((state: any) => state.meter.items);
   if (id) {
     const data = formData.find((item: any) => item.id === id);
     initialValues = {
