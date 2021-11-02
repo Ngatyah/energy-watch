@@ -1,5 +1,5 @@
 import IRoute from "../interfaces/route";
-import LoginForm from "../pages/LoginForm";
+
 import RegistrationForm from "../pages/RegistrationForm";
 import Dashboard from "../components/Dashboard";
 import {
@@ -14,6 +14,7 @@ import {
 import EnergyGraph from "../components/EnergyGraph";
 import MeterForm from "../pages/MeterForm";
 import MeterPanel from "../components/MeterPanel";
+import LoginForm from "../pages/LoginForm";
 
 export const routes: IRoute[] = [
   {

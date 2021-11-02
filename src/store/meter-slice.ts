@@ -1,20 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const formSlice = createSlice({
-  name: "form",
+const meterSlice = createSlice({
+  name: "meter",
   initialState: {
     items: <any[]>[],
-    totalQuality: 0,
+    
   },
   reducers: {
     addItemsToTable(state, action) {
       const newItem = action.payload;
-      state.items.push({
-        site: newItem.site,
-        serial: newItem.serial,
-        model: newItem.model,
-        id: newItem.id,
-      });
+      state.items.push(newItem);
     },
     removeItemFromTable(state, action) {
       const id = action.payload;
@@ -23,5 +18,5 @@ const formSlice = createSlice({
   },
 });
 
-export const formActions = formSlice.actions;
-export default formSlice;
+export const formActions = meterSlice.actions;
+export default meterSlice;

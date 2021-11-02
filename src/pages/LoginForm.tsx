@@ -13,15 +13,14 @@ import { DjangoService } from "../services/django-api";
 import { useState } from "react";
 
 const LoginForm: React.FunctionComponent<{}> = () => {
-
-  const [error, setError] = useState('')
+  const [error, setError] = useState("");
   const form = new FormData();
   form.set("greeting", "Hello, world!");
   const history = useHistory();
 
-  // get token and 
+  // get token and
   const onFinish = async (values: any) => {
-    setError('')
+    setError("");
     const body = `username=${values.email}&password=${values.password}&grant_type=password&client_id=${CLIENT_ID}`;
 
     const credentials = fetch(TOKEN_ENDPOINT, {
@@ -31,29 +30,38 @@ const LoginForm: React.FunctionComponent<{}> = () => {
       },
       body: body,
     })
-    .then((response) => {
-      return {data: response.json, status: response.status}
-    })
-    .then((res) => {
-      if (res.status === 200) {
-        const {access_token} = res.data as any;
-        // dispatch auth details to store
-        const apiService = new DjangoService(USER_PROFILE_ENDPOINT, access_token);
-        apiService.list()
-          .then(res => {
-            console.log(res)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-        return history.replace(GRAPH_URL);
-      } else {
-        setError('Username and password mismatch');
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((response) => {
+        return { data: response.json(), status: response.status };
+      })
+      .then(async (res) => {
+        console.log(res);
+        if (res.status === 200) {
+          const data = await res.data;
+          const { access_token } = data;
+          console.log(data);
+          console.log(access_token);
+
+          // dispatch auth details to store
+          const apiService = new DjangoService(
+            USER_PROFILE_ENDPOINT,
+            access_token
+          );
+          apiService
+            .list()
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          return history.replace(GRAPH_URL);
+        } else {
+          setError("Username and password mismatch");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -73,7 +81,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
         <div>
           <h1 style={{ color: "#008B8B" }}>Login </h1>
           <p> Use your Email and Password to login Here</p>
-          <p style={{color: 'red'}}> {error}</p>
+          <p style={{ color: "red" }}> {error}</p>
         </div>
         <Form.Item
           name="email"
