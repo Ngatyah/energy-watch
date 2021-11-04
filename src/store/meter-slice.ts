@@ -3,17 +3,16 @@ import { createSlice } from "@reduxjs/toolkit";
 const meterSlice = createSlice({
   name: "meter",
   initialState: {
-    items: <any[]>[],
-    
+    meters: <any[]>[],
   },
   reducers: {
-    addItemsToTable(state, action) {
+    addMeterToTable(state, action) {
       const newItem = action.payload;
-      state.items.push(newItem);
+      state.meters.push(newItem);
     },
-    removeItemFromTable(state, action) {
+    removeMeterFromTable(state, action) {
       const id = action.payload;
-      state.items = state.items.filter((item) => item.id !== id);
+      state.meters = state.meters.filter((item) => item.id !== id);
     },
   },
 });

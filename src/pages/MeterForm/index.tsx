@@ -26,7 +26,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
   const { Option } = Select;
   const history = useHistory();
   const removeItemHandler = (id: any) => {
-    dispatch(formActions.removeItemFromTable(id));
+    dispatch(formActions.removeMeterFromTable(id));
   };
   const onFinish = async (values: any) => {
     console.log("Success:", values["Serial"], values["Model"], values["site"]);
@@ -35,7 +35,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
       removeItemHandler(id);
     }
     dispatch(
-      formActions.addItemsToTable({
+      formActions.addMeterToTable({
         site: values["site"],
         model: values["Model"],
         serial: values["Serial"],

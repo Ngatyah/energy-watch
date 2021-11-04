@@ -4,7 +4,7 @@ import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { formActions } from "../../store/form-slice";
+import { formActions } from "../../store/meter-slice";
 import { ADD_METER } from "../../constants";
 
 // const data = [
@@ -39,7 +39,7 @@ import { ADD_METER } from "../../constants";
 // ];
 
 const MeterPanel = () => {
-  const formData = useSelector((state: any) => state.form.items);
+  const formData = useSelector((state: any) => state.meter.items);
   const dispatch = useDispatch();
   let { Title } = Typography;
   const history = useHistory();
@@ -48,7 +48,7 @@ const MeterPanel = () => {
     history.replace(ADD_METER);
   };
   const removeItemHandler = (id: any) => {
-    dispatch(formActions.removeItemFromTable(id));
+    dispatch(formActions.removeMeterFromTable(id));
   };
 
   const columns = [
