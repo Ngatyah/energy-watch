@@ -45,10 +45,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
           console.log(access_token);
           dispatch(authActions.addAccessData(data));
           // dispatch auth details to store
-          const apiService = new DjangoService(
-            USER_PROFILE_ENDPOINT,
-            access_token
-          );
+          const apiService = new DjangoService(USER_PROFILE_ENDPOINT);
           apiService
             .list()
             .then((res) => {

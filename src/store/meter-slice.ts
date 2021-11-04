@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-
+const REDUCER_NAME = "meter";
 const meterSlice = createSlice({
-  name: "meter",
+  name: REDUCER_NAME,
   initialState: {
     meters: <any[]>[],
   },

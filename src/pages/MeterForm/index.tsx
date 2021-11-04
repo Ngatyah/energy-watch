@@ -21,7 +21,6 @@ const MeterForm: React.FunctionComponent<{}> = () => {
     };
   }
 
-  console.log(id);
   const dispatch = useDispatch();
   const { Option } = Select;
   const history = useHistory();
