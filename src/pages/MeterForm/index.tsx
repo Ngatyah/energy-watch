@@ -15,9 +15,8 @@ import store from "../../store";
 const MeterForm: React.FunctionComponent<{}> = () => {
   let initialValues = {};
   const { id }: { id: string } = useParams();
-  const formData = getAllMeters(store);
   if (id) {
-    const data = getOneMeter(store, id);
+    const data = getOneMeter(store.getState(), id);
     initialValues = {
       Serial: data["serial"],
       Model: data["model"],

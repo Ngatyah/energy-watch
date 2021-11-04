@@ -9,7 +9,7 @@ import { ADD_METER } from "../../constants";
 import store from "../../store";
 
 const MeterPanel = () => {
-  const formData = getAllMeters(store);
+  const formData = getAllMeters(store.getState());
   const dispatch = useDispatch();
   let { Title } = Typography;
   const history = useHistory();
