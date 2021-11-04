@@ -1,4 +1,5 @@
 import { Form, Input, Button, Checkbox } from "antd";
+import { useDispatch } from "react-redux";
 
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Link, useHistory } from "react-router-dom";
@@ -11,8 +12,10 @@ import {
 } from "../../constants";
 import { DjangoService } from "../../services/django-api";
 import { useState } from "react";
+import { authActions } from "../../store/auth_slice";
 
 const LoginForm: React.FunctionComponent<{}> = () => {
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const form = new FormData();
   form.set("greeting", "Hello, world!");
@@ -40,7 +43,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
           const { access_token } = data;
           console.log(data);
           console.log(access_token);
-
+          dispatch(authActions.addAccessData(data));
           // dispatch auth details to store
           const apiService = new DjangoService(
             USER_PROFILE_ENDPOINT,
@@ -50,6 +53,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
             .list()
             .then((res) => {
               console.log(res);
+              dispatch(authActions.addProfileData(res));
             })
             .catch((err) => {
               console.log(err);
