@@ -16,10 +16,11 @@ const meterSlice = createSlice({
     },
   },
 });
-
+//get access to all meters
 export const getAllMeters = (state: any) => {
   return (state as any)[REDUCER_NAME].meters;
 };
+//get a single meter.
 export const getOneMeter = (state: any, id: any) => {
   return getAllMeters(state).find((item: any) => item.id === id);
 };
