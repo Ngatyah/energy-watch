@@ -13,7 +13,7 @@ import {
 } from "@ant-design/icons";
 import { useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { METERS_URL, GRAPH_URL } from "../../constants";
+import { METERS_URL, GRAPH_URL, SITE_URL } from "../../constants";
 import { dashboardRoutes } from "../../configs/routes";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -43,12 +43,8 @@ const Dashboard: any = (props: any) => {
               <NavLink to={METERS_URL}></NavLink>
               Meters
             </Menu.Item>
-            <Menu.Item
-              onClick={onSiteHandler}
-              key="sub1"
-              icon={<AuditOutlined />}
-              title="User"
-            >
+            <Menu.Item key="3" icon={<AuditOutlined />}>
+              <NavLink to={SITE_URL}></NavLink>
               Sites
             </Menu.Item>
             <Menu.Item key="9" icon={<UserOutlined />}>

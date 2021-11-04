@@ -17,12 +17,14 @@ import { authActions } from "../../store/auth_slice";
 const LoginForm: React.FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const form = new FormData();
   form.set("greeting", "Hello, world!");
   const history = useHistory();
 
   // get token and
   const onFinish = async (values: any) => {
+    setLoading(true);
     setError("");
     const body = `username=${values.email}&password=${values.password}&grant_type=password&client_id=${CLIENT_ID}`;
 
@@ -50,13 +52,16 @@ const LoginForm: React.FunctionComponent<{}> = () => {
             .list()
             .then((res) => {
               console.log(res);
+              setLoading(false);
               dispatch(authActions.addProfileData(res));
             })
             .catch((err) => {
+              setLoading(false);
               console.log(err);
             });
           return history.replace(GRAPH_URL);
         } else {
+          setLoading(false);
           setError("Username and password mismatch");
         }
       })
@@ -126,6 +131,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
             htmlType="submit"
             className="login-form-button"
             block
+            loading={loading}
           >
             Log in
           </Button>

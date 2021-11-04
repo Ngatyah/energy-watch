@@ -31,8 +31,10 @@ const tailFormItemLayout = {
 const RegistrationForm: React.FunctionComponent<{}> = () => {
   const history = useHistory();
   const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values: any) => {
+    setIsLoading(true);
     console.log("Received values of form: ", values);
     console.log(values.password);
     console.log(values.email);
@@ -54,11 +56,13 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
       }
     );
     if (res.ok) {
+      setIsLoading(false);
       console.log("Data Stored Successfully!!!");
       alert("Registered Successfully");
       console.log(res);
       history.replace(LOGIN);
     } else {
+      setIsLoading(false);
       alert("Something Went Wrong!!");
     }
   };
@@ -253,7 +257,7 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
           </Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button type="primary" htmlType="submit" loading={isLoading} block>
             Register
           </Button>
         </Form.Item>
@@ -262,10 +266,4 @@ const RegistrationForm: React.FunctionComponent<{}> = () => {
   );
 };
 
-// const body = `username=${user}&password=${pass}&grant_type=${'password'}&client_id=${clientId}`;\
-
-// const user = this.LoginForm.value.username;
-//   const pass = this.LoginForm.value.password;
-//   const clientId = this.generalService.clientId;
-//   const body = `username=${user}&password=${pass}&grant_type=password&client_id=${clientId}`;
 export default RegistrationForm;

@@ -10,11 +10,13 @@ import {
   METERS_URL,
   REGISTRATION,
   EDIT_METER,
+  SITE_URL,
 } from "../constants";
 import EnergyGraph from "../components/EnergyGraph";
 import MeterForm from "../pages/MeterForm";
 import MeterPanel from "../components/MeterPanel";
 import LoginForm from "../pages/LoginForm";
+import SitePanel from "../components/SitePanel";
 
 export const routes: IRoute[] = [
   {
@@ -43,6 +45,12 @@ export const dashboardRoutes: IRoute[] = [
     path: METERS_URL,
     name: "meters",
     component: MeterPanel,
+    exact: true,
+  },
+  {
+    path: SITE_URL,
+    name: "sites",
+    component: SitePanel,
     exact: true,
   },
   {

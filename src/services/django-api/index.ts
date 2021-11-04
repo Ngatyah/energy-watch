@@ -1,7 +1,6 @@
 import { IncomingHttpHeaders } from "http";
 import queryString from "querystring";
 import { BASE_URL_V1 } from "../../constants";
-import { useSelector } from "react-redux";
 
 import { throwNetworkError, throwHTTPError } from "./errors";
 import store from "../../store";
@@ -78,11 +77,6 @@ export const customFetch: CustomFetch = async (...rest) => {
 
 /** params option type */
 type paramsType = URLParams | null;
-
-function AuthData() {
-  const auth = useSelector((state: any) => state.auth.accessData);
-  return auth;
-}
 
 // class for making requests to api
 export class DjangoService<PayloadT extends object = Dictionary> {

@@ -1,13 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import React from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../../constants";
-import {
-  formActions,
-  getAllMeters,
-  getOneMeter,
-} from "../../store/meter-slice";
+import { formActions, getOneMeter } from "../../store/meter-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 import store from "../../store";
@@ -22,6 +18,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
       Model: data["model"],
       site: data["site"],
       Id: data["id"],
+      key: data["key"],
     };
   }
 
@@ -32,7 +29,6 @@ const MeterForm: React.FunctionComponent<{}> = () => {
     dispatch(formActions.removeMeterFromTable(id));
   };
   const onFinish = async (values: any) => {
-    console.log("Success:", values["Serial"], values["Model"], values["site"]);
     history.replace(METERS_URL);
     if (id) {
       removeItemHandler(id);

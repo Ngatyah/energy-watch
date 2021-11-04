@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-const REDUCER_NAME = "meter";
+export const REDUCER_NAME = "meter";
 const meterSlice = createSlice({
   name: REDUCER_NAME,
   initialState: {

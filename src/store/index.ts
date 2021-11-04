@@ -1,9 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authSlice, { REDUCER_NAME as authReducerName } from "./auth_slice";
-import meterSlice from "./meter-slice";
+import meterSlice, { REDUCER_NAME as meterReducerName } from "./meter-slice";
 
 const store = configureStore({
-  reducer: { meter: meterSlice.reducer, [authReducerName]: authSlice.reducer },
+  reducer: {
+    [meterReducerName]: meterSlice.reducer,
+    [authReducerName]: authSlice.reducer,
+  },
 });
 
 export default store;
