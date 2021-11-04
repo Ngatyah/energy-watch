@@ -17,5 +17,12 @@ const meterSlice = createSlice({
   },
 });
 
+export const getAllMeters = (state: any) => {
+  return (state as any)[REDUCER_NAME].meters;
+};
+export const getOneMeter = (state: any, id: any) => {
+  return getAllMeters(state).find((item: any) => item.id === id);
+};
+
 export const formActions = meterSlice.actions;
 export default meterSlice;

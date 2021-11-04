@@ -4,42 +4,12 @@ import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { formActions } from "../../store/meter-slice";
+import { formActions, getAllMeters } from "../../store/meter-slice";
 import { ADD_METER } from "../../constants";
-
-// const data = [
-//   {
-//     key: "1",
-//     id: uuid(),
-//     serial: "123443243",
-//     model: "6M",
-//     site: "site 1",
-//   },
-//   {
-//     key: "2",
-//     id: uuid(),
-//     serial: "1234433",
-//     model: "6M",
-//     site: "site 2",
-//   },
-//   {
-//     key: "3",
-//     id: uuid(),
-//     serial: "123443243",
-//     model: "6M",
-//     site: "site 2",
-//   },
-//   {
-//     key: "4",
-//     id: uuid(),
-//     serial: "123443243",
-//     model: "6M",
-//     site: "site 4",
-//   },
-// ];
+import store from "../../store";
 
 const MeterPanel = () => {
-  const formData = useSelector((state: any) => state.meter.meters);
+  const formData = getAllMeters(store);
   const dispatch = useDispatch();
   let { Title } = Typography;
   const history = useHistory();

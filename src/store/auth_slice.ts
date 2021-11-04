@@ -26,7 +26,7 @@ export const getAccessData = (state: any) => {
 export const getAccessToken = (state: any) => {
   return getAccessData(state).access_token;
 };
-
+//get all profile data
 export const getProfileData = (state: any) => {
   return (state as any)[REDUCER_NAME].profileData;
 };

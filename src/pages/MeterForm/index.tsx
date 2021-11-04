@@ -3,16 +3,21 @@ import React from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
 import { METERS_URL } from "../../constants";
-import { formActions } from "../../store/meter-slice";
+import {
+  formActions,
+  getAllMeters,
+  getOneMeter,
+} from "../../store/meter-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
+import store from "../../store";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
   let initialValues = {};
   const { id }: { id: string } = useParams();
-  const formData = useSelector((state: any) => state.meter.meters);
+  const formData = getAllMeters(store);
   if (id) {
-    const data = formData.find((item: any) => item.id === id);
+    const data = getOneMeter(store, id);
     initialValues = {
       Serial: data["serial"],
       Model: data["model"],
