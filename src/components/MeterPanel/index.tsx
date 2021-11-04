@@ -39,7 +39,7 @@ import { ADD_METER } from "../../constants";
 // ];
 
 const MeterPanel = () => {
-  const formData = useSelector((state: any) => state.meter.items);
+  const formData = useSelector((state: any) => state.meter.meters);
   const dispatch = useDispatch();
   let { Title } = Typography;
   const history = useHistory();

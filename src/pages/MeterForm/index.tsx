@@ -10,7 +10,7 @@ import { uuid } from "uuidv4";
 const MeterForm: React.FunctionComponent<{}> = () => {
   let initialValues = {};
   const { id }: { id: string } = useParams();
-  const formData = useSelector((state: any) => state.meter.items);
+  const formData = useSelector((state: any) => state.meter.meters);
   if (id) {
     const data = formData.find((item: any) => item.id === id);
     initialValues = {
