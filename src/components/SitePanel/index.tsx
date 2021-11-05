@@ -4,27 +4,27 @@ import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { formActions, getAllMeters } from "../../store/meter-slice";
-import { ADD_METER } from "../../constants";
+import { ADD_SITE } from "../../constants";
 import store from "../../store";
+import { siteActions, getAllSites } from "../../store/sites_slice";
 
 const SitePanel = () => {
-  const formData = getAllMeters(store.getState());
+  const formData = getAllSites(store.getState());
   const dispatch = useDispatch();
   let { Title } = Typography;
   const history = useHistory();
 
   const onButtonClick = () => {
-    history.replace(ADD_METER);
+    history.replace(ADD_SITE);
   };
   const removeItemHandler = (id: any) => {
-    dispatch(formActions.removeMeterFromTable(id));
+    dispatch(siteActions.removeSiteFromTable(id));
   };
 
   const columns = [
     {
       title: "Site Id",
-      dataIndex: "site",
+      dataIndex: "site_id",
       sorter: {
         compare: (a: any, b: any) => a.name - b.name,
         multiple: 3,
@@ -32,7 +32,7 @@ const SitePanel = () => {
     },
     {
       title: "Site Name",
-      dataIndex: "model",
+      dataIndex: "name",
       sorter: {
         compare: (a: any, b: any) => a.chinese - b.chinese,
         multiple: 3,
@@ -47,7 +47,7 @@ const SitePanel = () => {
             {<EyeOutlined style={{ fontSize: "20px" }} />}
           </Button>
           <Button type="text">
-            <Link to={"/dashboard/edit/meter/" + row.id}>
+            <Link to={"/dashboard/edit/site/" + row.id}>
               {<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}
             </Link>
           </Button>

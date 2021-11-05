@@ -7,8 +7,8 @@ const meterSlice = createSlice({
   },
   reducers: {
     addMeterToTable(state, action) {
-      const newItem = action.payload;
-      state.meters.push(newItem);
+      const newMeter = action.payload;
+      state.meters.push(newMeter);
     },
     removeMeterFromTable(state, action) {
       const id = action.payload;

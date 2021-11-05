@@ -11,12 +11,15 @@ import {
   REGISTRATION,
   EDIT_METER,
   SITE_URL,
+  ADD_SITE,
+  EDIT_SITE,
 } from "../constants";
 import EnergyGraph from "../components/EnergyGraph";
 import MeterForm from "../pages/MeterForm";
 import MeterPanel from "../components/MeterPanel";
 import LoginForm from "../pages/LoginForm";
 import SitePanel from "../components/SitePanel";
+import SiteForm from "../pages/SiteForm";
 
 export const routes: IRoute[] = [
   {
@@ -69,6 +72,18 @@ export const dashboardRoutes: IRoute[] = [
     path: EDIT_METER,
     name: "meterform",
     component: MeterForm,
+    exact: false,
+  },
+  {
+    path: ADD_SITE,
+    name: "site_form",
+    component: SiteForm,
+    exact: true,
+  },
+  {
+    path: EDIT_SITE,
+    name: "site_form",
+    component: SiteForm,
     exact: false,
   },
 ];
