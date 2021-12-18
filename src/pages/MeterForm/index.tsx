@@ -1,15 +1,18 @@
-import { useDispatch } from "react-redux";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_ENDPOINT, METERS_URL } from "../../constants";
+import { METERS_ENDPOINT, METERS_URL, SITES_ENDPOINT } from "../../constants";
 import { formActions, getOneMeter } from "../../store/meter-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 import store from "../../store";
 import { DjangoService } from "../../services/django-api";
+import { getProfileData } from "../../store/auth_slice";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
+  const [loading, setLoading] = useState(false);
+  const profileData = useSelector(state => getProfileData(state));
   let initialValues = {};
   const { id }: { id: string } = useParams();
   if (id) {
@@ -28,7 +31,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
   const history = useHistory();
 
   const onFinish = async (values: any) => {
-    history.replace(METERS_URL);
+    
     if (id) {
       dispatch(formActions.removeMeterFromTable(id));
     }
@@ -41,6 +44,21 @@ const MeterForm: React.FunctionComponent<{}> = () => {
         key: uuid(),
       })
     );
+    const apiService = new DjangoService(METERS_ENDPOINT);
+    apiService
+      .create({ name:  values["site"],
+      owner:profileData.id,
+      device_srn: values["Serial"],
+       site:values["site"],})
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+        history.replace(METERS_URL);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
   const formItemLayout = {
     labelCol: {
@@ -113,6 +131,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
             htmlType="submit"
             className="login-form-button"
             block
+            loading={loading}
           >
             Submit
           </Button>
