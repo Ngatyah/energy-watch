@@ -1,15 +1,19 @@
-import { useDispatch } from "react-redux";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_URL } from "../../constants";
+import { METERS_URL, SITES_ENDPOINT } from "../../constants";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 import store from "../../store";
 import { getOneSite, siteActions } from "../../store/sites_slice";
+import { DjangoService } from "../../services/django-api";
+import { getProfileData } from "../../store/auth_slice";
 
 const SiteForm: React.FunctionComponent<{}> = () => {
   let initialValues = {};
+  const profileData = useSelector(state => getProfileData(state));
+  const [loading, setLoading] = useState(false);
   const { id }: { id: string } = useParams();
   if (id) {
     const data = getOneSite(store.getState(), id);
@@ -25,6 +29,7 @@ const SiteForm: React.FunctionComponent<{}> = () => {
     dispatch(siteActions.removeSiteFromTable(id));
   };
   const onFinish = async (values: any) => {
+    setLoading(true);
     history.replace(METERS_URL);
     if (id) {
       removeItemHandler(id);
@@ -37,6 +42,17 @@ const SiteForm: React.FunctionComponent<{}> = () => {
         key: uuid(),
       })
     );
+    const apiService = new DjangoService(SITES_ENDPOINT);
+    apiService
+      .create({ name: values["site_name"],owner:profileData.id })
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
   const formItemLayout = {
     labelCol: {
@@ -96,6 +112,7 @@ const SiteForm: React.FunctionComponent<{}> = () => {
             htmlType="submit"
             className="login-form-button"
             block
+            loading={loading}
           >
             Submit
           </Button>

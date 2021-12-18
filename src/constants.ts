@@ -16,6 +16,7 @@ export const TOKEN_ENDPOINT = `${BASE_URL}/auth/token/`;
 export const BASE_URL_V1 = `${BASE_URL}/api/v1`;
 export const USER_PROFILE_ENDPOINT = "/users/me/";
 export const METERS_ENDPOINT = "/meters/";
+export const SITES_ENDPOINT = "/sites/";
 
 //ids
 export const CLIENT_ID = "fbaPXGrD6wewVEqoOkJfvierIrYbnROPXMa8CDv5";

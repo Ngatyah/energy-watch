@@ -261,7 +261,7 @@ export class DjangoService<PayloadT extends object = Dictionary> {
       const defaultMessage = `DjangoService list on ${this.endpoint} failed, HTTP status ${response.status}`;
       await throwHTTPError(response, defaultMessage);
     }
-  }
+ }
 
   /** delete method
    * Send a DELETE request to the general endpoint

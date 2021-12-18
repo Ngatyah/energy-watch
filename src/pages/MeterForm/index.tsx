@@ -2,11 +2,12 @@ import { useDispatch } from "react-redux";
 import React from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_URL } from "../../constants";
+import { METERS_ENDPOINT, METERS_URL } from "../../constants";
 import { formActions, getOneMeter } from "../../store/meter-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 import store from "../../store";
+import { DjangoService } from "../../services/django-api";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
   let initialValues = {};
@@ -25,13 +26,11 @@ const MeterForm: React.FunctionComponent<{}> = () => {
   const dispatch = useDispatch();
   const { Option } = Select;
   const history = useHistory();
-  const removeItemHandler = (id: any) => {
-    dispatch(formActions.removeMeterFromTable(id));
-  };
+
   const onFinish = async (values: any) => {
     history.replace(METERS_URL);
     if (id) {
-      removeItemHandler(id);
+      dispatch(formActions.removeMeterFromTable(id));
     }
     dispatch(
       formActions.addMeterToTable({

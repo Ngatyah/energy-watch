@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Table, Typography, Button, Space, Row } from "antd";
 import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Fragment } from "react";
@@ -9,7 +9,8 @@ import store from "../../store";
 import { siteActions, getAllSites } from "../../store/sites_slice";
 
 const SitePanel = () => {
-  const formData = getAllSites(store.getState());
+  
+  const siteData = useSelector(state => getAllSites(state));
   const dispatch = useDispatch();
   let { Title } = Typography;
   const history = useHistory();
@@ -68,7 +69,7 @@ const SitePanel = () => {
         </Button>
       </Row>
 
-      <Table dataSource={formData} columns={columns} />
+      <Table dataSource={siteData} columns={columns} />
     </Fragment>
   );
 };
