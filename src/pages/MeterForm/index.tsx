@@ -44,6 +44,7 @@ const MeterForm: React.FunctionComponent<{}> = () => {
         key: uuid(),
       })
     );
+    // Upload  data online
     const apiService = new DjangoService(METERS_ENDPOINT);
     apiService
       .create({ name:  values["site"],
