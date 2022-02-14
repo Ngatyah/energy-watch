@@ -8,8 +8,7 @@ import { ADD_SITE } from "../../constants";
 import store from "../../store";
 import { siteActions, getAllSites } from "../../store/sites_slice";
 
-const SitePanel = () => {
-  
+const SitePanel = () => { 
   const siteData = useSelector(state => getAllSites(state));
   const dispatch = useDispatch();
   let { Title } = Typography;
@@ -25,7 +24,7 @@ const SitePanel = () => {
   const columns = [
     {
       title: "Site Id",
-      dataIndex: "site_id",
+      dataIndex: "id",
       sorter: {
         compare: (a: any, b: any) => a.name - b.name,
         multiple: 3,

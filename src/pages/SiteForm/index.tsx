@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { Form, Input, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_URL, SITES_ENDPOINT } from "../../constants";
+import {  METERS_URL, SITES_ENDPOINT,SITES_LIST_ENDPOINT } from "../../constants";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 import store from "../../store";
@@ -34,15 +34,8 @@ const SiteForm: React.FunctionComponent<{}> = () => {
     if (id) {
       removeItemHandler(id);
     }
-    dispatch(
-      siteActions.addSiteToTable({
-        site: values["site_id"],
-        name: values["site_name"],
-        id: uuid(),
-        key: uuid(),
-      })
-    );
     const apiService = new DjangoService(SITES_ENDPOINT);
+    
     apiService
       .create({ name: values["site_name"],owner:profileData.id })
       .then((res) => {
@@ -53,6 +46,31 @@ const SiteForm: React.FunctionComponent<{}> = () => {
         setLoading(false);
         console.log(err);
       });
+ const apService = new DjangoService(SITES_LIST_ENDPOINT);
+ 
+   apService.list()
+            .then((res) => {
+              console.log(res['results']);
+          for(let i=0;i<res['results'].length;i++){
+
+          console.log(res['results'][i]['id'])
+
+           dispatch(
+      siteActions.addSiteToTable({
+        site: values["site_id"],
+        name: res['results'][i]['name'],
+        id: res['results'][i]['id'],
+        key: uuid(),
+      })
+    );
+          }
+              
+            })
+            .catch((err) => {
+              
+              console.log(err);
+            });
+      
   };
   const formItemLayout = {
     labelCol: {

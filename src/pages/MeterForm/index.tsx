@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useState } from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_ENDPOINT, METERS_URL, SITES_ENDPOINT } from "../../constants";
+import { METERS_ENDPOINT, METERS_URL,} from "../../constants";
 import { formActions, getOneMeter } from "../../store/meter-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
@@ -47,10 +47,10 @@ const MeterForm: React.FunctionComponent<{}> = () => {
     // Upload  data online
     const apiService = new DjangoService(METERS_ENDPOINT);
     apiService
-      .create({ name:  values["site"],
+      .create({ name:  values["Serial"],
       owner:profileData.id,
       device_srn: values["Serial"],
-       site:values["site"],})
+       site:profileData.id,})
       .then((res) => {
         console.log(res);
         setLoading(false);

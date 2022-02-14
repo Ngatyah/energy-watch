@@ -17,6 +17,6 @@ export const BASE_URL_V1 = `${BASE_URL}/api/v1`;
 export const USER_PROFILE_ENDPOINT = "/users/me/";
 export const METERS_ENDPOINT = "/meters/";
 export const SITES_ENDPOINT = "/sites/";
-
+export const SITES_LIST_ENDPOINT = "/sites/all/";
 //ids
 export const CLIENT_ID = "fbaPXGrD6wewVEqoOkJfvierIrYbnROPXMa8CDv5";

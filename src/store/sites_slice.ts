@@ -1,9 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { SITES_LIST_ENDPOINT } from "../constants";
+import { DjangoService } from "../services/django-api";
 export const REDUCER_NAME = "site";
+
+let initialValues:any = [];
+
+
 const siteSlice = createSlice({
+
   name: REDUCER_NAME,
   initialState: {
-    sites: <any[]>[],
+    sites:initialValues,
   },
   reducers: {
     addSiteToTable(state, action) {
@@ -12,7 +19,7 @@ const siteSlice = createSlice({
     },
     removeSiteFromTable(state, action) {
       const id = action.payload;
-      state.sites = state.sites.filter((item) => item.id !== id);
+      state.sites = state.sites.filter((item:any) => item.id !== id);
     },
   },
 });
@@ -24,6 +31,8 @@ export const getAllSites = (state: any) => {
 export const getOneSite = (state: any, id: any) => {
   return getAllSites(state).find((item: any) => item.id === id);
 };
+
+
 
 export const siteActions = siteSlice.actions;
 export default siteSlice;
