@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import ReactDOM from "react-dom";
-import { Button, Divider, Row, Typography, Col, Card } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { Button, Divider, Row, Typography, Col, Card, Form, Input, Space, DatePicker } from "antd";
 import { Chart, LineAdvance } from "bizcharts";
 import { Content } from "antd/lib/layout/layout";
 import BulbOutlined from "@ant-design/icons/lib/icons/BulbOutlined";
@@ -172,9 +172,22 @@ const data = [
 const EnergyGraph = () => {
   let { Title } = Typography;
 
+  const { RangePicker } = DatePicker;
+
+  const SubmutDateFilter = async (_: any, dateString: string[]) => {
+    console.log(dateString);
+  }
+
   return (
     <Fragment>
       <Title>Dashboard</Title>
+      <Row justify="space-around" align="middle" wrap>
+        <Space direction="vertical" size={12}>
+          <RangePicker onChange={SubmutDateFilter}/>
+        </Space>
+      </Row>
+      <Divider orientation="right"></Divider>
+      
       <Row justify="space-around" align="middle" wrap>
         <Chart
           padding={[10, 20, 50, 40]}
@@ -232,9 +245,6 @@ const EnergyGraph = () => {
             </Content>
           </Card>
         </Col>
-
-        <Divider orientation="right">Align Top</Divider>
-        <Button>Click Here </Button>
       </Row>
     </Fragment>
   );
