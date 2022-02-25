@@ -1,58 +1,60 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Input, Select, Button } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_ENDPOINT, METERS_URL,} from "../../constants";
-import { formActions, getOneMeter } from "../../store/meter-slice";
+import { METERS_ENDPOINT, METERS_URL, SITES_ENDPOINT,} from "../../constants";
+import { meterActions, getSingleMeter } from "../../store/meter-slice";
 import { useParams } from "react-router-dom";
 import { uuid } from "uuidv4";
 import store from "../../store";
 import { DjangoService } from "../../services/django-api";
 import { getProfileData } from "../../store/auth_slice";
+import { getAllSites, siteActions } from "../../store/sites_slice";
 
 const MeterForm: React.FunctionComponent<{}> = () => {
+  const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const profileData = useSelector(state => getProfileData(state));
-  let initialValues = {};
+  const sitesData = useSelector(state => getAllSites(state));
   const { id }: { id: string } = useParams();
-  if (id) {
-    const data = getOneMeter(store.getState(), id);
-    initialValues = {
-      Serial: data["serial"],
-      Model: data["model"],
-      site: data["site"],
-      Id: data["id"],
-      key: data["key"],
-    };
+  const meterData = getSingleMeter(store.getState(), id);
+
+  const apiGetAllSites = () => {
+    const apService = new DjangoService(SITES_ENDPOINT);
+    apService.list()
+      .then((res) => {
+        dispatch(siteActions.addSites(res));
+      })
+      .catch((err) => {
+        
+        console.log(err);
+      });
   }
+
+  useEffect(() => {
+    apiGetAllSites()
+  }, [profileData.id])
+
+  useEffect(() => {
+    if(meterData) {
+      form.setFieldsValue({
+        name: meterData.name,
+        device_id: meterData.device_id,
+        device_srn: meterData.device_srn,
+        site: meterData.site
+      });
+    }
+  }, [meterData])
 
   const dispatch = useDispatch();
   const { Option } = Select;
   const history = useHistory();
 
-  const onFinish = async (values: any) => {
-    
-    if (id) {
-      dispatch(formActions.removeMeterFromTable(id));
-    }
-    dispatch(
-      formActions.addMeterToTable({
-        site: values["site"],
-        model: values["Model"],
-        serial: values["Serial"],
-        id: uuid(),
-        key: uuid(),
-      })
-    );
-    // Upload  data online
+  const saveMeter = async (values: any) => {
     const apiService = new DjangoService(METERS_ENDPOINT);
     apiService
-      .create({ name:  values["Serial"],
-      owner:profileData.id,
-      device_srn: values["Serial"],
-       site:profileData.id,})
+      .create({...values, owner: profileData.id})
       .then((res) => {
-        console.log(res);
         setLoading(false);
         history.replace(METERS_URL);
       })
@@ -61,6 +63,24 @@ const MeterForm: React.FunctionComponent<{}> = () => {
         console.log(err);
       });
   };
+
+
+  const UpdateSite = async (values: any) => {
+    setLoading(true);
+    const apiService = new DjangoService(METERS_ENDPOINT);
+    apiService
+      .update(`${id}/`, {...meterData, ...values })
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });      
+  };
+
+
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -82,17 +102,28 @@ const MeterForm: React.FunctionComponent<{}> = () => {
     >
       <Form
         {...formItemLayout}
+        form={form}
         name="normal_login"
         className="login-form"
-        initialValues={initialValues}
-        onFinish={onFinish}
+        onFinish={id ? UpdateSite : saveMeter}
       >
         <div>
-          <h1 style={{ color: "#008B8B" }}>Add Meter </h1>
-          <p> Enter the New Meter Details Here. Fill all the Fields</p>
+          <h1 style={{ color: "#008B8B" }}>{id?"Update":"Add"} Meter </h1>
+          <hr/>
         </div>
         <Form.Item
-          name="Serial"
+          name="device_id"
+          label="METER ID"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name="device_srn"
           label="SERIAL No"
           rules={[
             {
@@ -103,8 +134,8 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           <Input />
         </Form.Item>
         <Form.Item
-          name="Model"
-          label="MODEL"
+          name="name"
+          label="NAME"
           rules={[
             {
               required: true,
@@ -119,11 +150,10 @@ const MeterForm: React.FunctionComponent<{}> = () => {
           rules={[{ required: true, message: "Select a site" }]}
         >
           <Select placeholder="Select the meter site">
-            <Option value="Site 1">site 1</Option>
-            <Option value="site 2">Site 2</Option>
-            <Option value="site 3">Site 3</Option>
-            <Option value="site 4">Site 4</Option>
-            <Option value="site 5">Site 5</Option>
+            {sitesData.length > 0? 
+              sitesData.map((site: any) => <Option key={site.id} value={site.id}>{site.name.toUpperCase()}</Option>)
+              : "Loading sites Data"
+            }
           </Select>
         </Form.Item>
         <Form.Item>
@@ -143,3 +173,4 @@ const MeterForm: React.FunctionComponent<{}> = () => {
 };
 
 export default MeterForm;
+

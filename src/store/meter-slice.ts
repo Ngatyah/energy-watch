@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { listToObject } from "../utils";
 export const REDUCER_NAME = "meter";
 const meterSlice = createSlice({
   name: REDUCER_NAME,
@@ -6,24 +7,33 @@ const meterSlice = createSlice({
     meters: <any[]>[],
   },
   reducers: {
-    addMeterToTable(state, action) {
-      const newMeter = action.payload;
-      state.meters.push(newMeter);
+    addMeters(state, action) {
+      const meters = action.payload;
+      state.meters = listToObject(meters);
     },
-    removeMeterFromTable(state, action) {
+    addSingleMeter(state, action) {
+      const meter = action.payload;
+      state.meters = {
+        [meter.id]: meter,
+        ...state.meters
+      }
+    },
+    removeMeter(state, action) {
       const id = action.payload;
-      state.meters = state.meters.filter((item) => item.id !== id);
+      const meters = {...state.meters}
+      delete meters[id]
+      state.meters = meters
     },
   },
 });
 //get access to all meters
 export const getAllMeters = (state: any) => {
-  return (state as any)[REDUCER_NAME].meters;
+  return  Object.values((state as any)[REDUCER_NAME].meters || {});
 };
 //get a single meter.
-export const getOneMeter = (state: any, id: any) => {
-  return getAllMeters(state).find((item: any) => item.id === id);
+export const getSingleMeter = (state: any, id: any) => {
+  return (state as any)[REDUCER_NAME].meters[id] || null
 };
 
-export const formActions = meterSlice.actions;
+export const meterActions = meterSlice.actions;
 export default meterSlice;

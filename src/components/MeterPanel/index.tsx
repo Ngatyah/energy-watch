@@ -1,15 +1,18 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Table, Typography, Button, Space, Row } from "antd";
 import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { formActions, getAllMeters } from "../../store/meter-slice";
-import { ADD_METER } from "../../constants";
-import store from "../../store";
+import { meterActions, getAllMeters } from "../../store/meter-slice";
+import { ADD_METER, METERS_ENDPOINT } from '../../constants';
+import { DjangoService } from "../../services/django-api";
+import { getProfileData } from "../../store/auth_slice";
 
 const MeterPanel = () => {
-  const formData = getAllMeters(store.getState());
+  const formData:any = useSelector(state => getAllMeters(state));
+  const profileData = useSelector(state => getProfileData(state));
+  const [deletingId, setdeletingId] = useState('')
   const dispatch = useDispatch();
   let { Title } = Typography;
   const history = useHistory();
@@ -18,37 +21,71 @@ const MeterPanel = () => {
     history.replace(ADD_METER);
   };
   const removeItemHandler = (id: any) => {
-    dispatch(formActions.removeMeterFromTable(id));
+    dispatch(meterActions.removeMeter(id));
   };
 
+  const apiGetAllMeters = () => {
+    const apService = new DjangoService(METERS_ENDPOINT);
+    apService.list()
+      .then((res) => {
+        dispatch(meterActions.addMeters(res));
+      })
+      .catch((err) => {
+        
+        console.log(err);
+      });
+  }
+
+  const softDeleteSite = (siteData: any) => {
+    setdeletingId(siteData.id);
+    const apiService = new DjangoService(METERS_ENDPOINT);
+    apiService
+      .update(`${siteData.id}/`, {...siteData, is_deleted: true })
+      .then((res) => {
+        dispatch(meterActions.removeMeter(siteData.id));
+        setdeletingId('');
+      })
+      .catch((err) => {
+        setdeletingId('');
+        console.log(err);
+      }); 
+
+  }
+
+  useEffect(() => {
+    apiGetAllMeters()
+  }, [profileData.id])
+
   const columns = [
+
     {
-      title: "Serial Number",
-      dataIndex: "serial",
+      title: "id",
+      dataIndex: "id",
+      key: "id",
       sorter: {
-        compare: (a: any, b: any) => a.name - b.name,
+        compare: (a: any, b: any) => a.id - b.id,
         multiple: 3,
       },
     },
     {
-      title: "Model",
-      dataIndex: "model",
-      sorter: {
-        compare: (a: any, b: any) => a.chinese - b.chinese,
-        multiple: 3,
-      },
+      title: "Serial Number",
+      dataIndex: "device_srn",
+      key: "serial"
+    },
+    {
+      title: "Meter name",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Site",
-      dataIndex: "site",
-      sorter: {
-        compare: (a: any, b: any) => a.math - b.math,
-        multiple: 2,
-      },
+      dataIndex: "site_name",
+      key: "site",
     },
     {
       title: "Actions",
       dataIndex: "actions",
+      key: "actions",
       render: (text: any, row: any) => (
         <Space size="large">
           <Button type="text">
@@ -59,7 +96,7 @@ const MeterPanel = () => {
               {<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}
             </Link>
           </Button>
-          <Button type="text" onClick={() => removeItemHandler(row.id)}>
+          <Button type="text" loading={deletingId === row.id} onClick={() => softDeleteSite(row)}>
             {<DeleteOutlined style={{ fontSize: "20px", color: "red" }} />}
           </Button>
         </Space>

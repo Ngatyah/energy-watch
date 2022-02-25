@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { Form, Input, Button, Select } from "antd";
 import { useHistory } from "react-router-dom";
-import { METERS_URL, SITES_ENDPOINT, SITE_URL } from '../../constants';
+import { SITES_ENDPOINT } from '../../constants';
 import { useParams } from "react-router-dom";
 import store from "../../store";
 import { getSingleSite, siteActions } from "../../store/sites_slice";
@@ -108,8 +108,8 @@ const SiteForm: React.FunctionComponent<{}> = () => {
         onFinish={id? UpdateSite : saveSite}
       >
         <div>
-          <h1 style={{ color: "#008B8B" }}>Add Meter </h1>
-          <p> Enter the New Meter Details Here. Fill all the Fields</p>
+          <h1 style={{ color: "#008B8B" }}>{id?"Update":"Add"} Site </h1>
+          <hr/>
         </div>
         <Form.Item
           name="name"
