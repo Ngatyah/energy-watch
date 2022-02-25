@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { SITES_LIST_ENDPOINT } from "../constants";
-import { DjangoService } from "../services/django-api";
+import { listToObject } from "../utils";
 export const REDUCER_NAME = "site";
 
-let initialValues:any = [];
+let initialValues:any = {};
 
 
 const siteSlice = createSlice({
@@ -13,23 +12,32 @@ const siteSlice = createSlice({
     sites:initialValues,
   },
   reducers: {
-    addSiteToTable(state, action) {
-      const newSite = action.payload;
-      state.sites.push(newSite);
+    addSites(state, action) {
+      const sites = action.payload;
+      state.sites = listToObject(sites);
     },
-    removeSiteFromTable(state, action) {
+    addSingleSite(state, action) {
+      const site = action.payload;
+      state.sites = {
+        [site.id]: site,
+        ...state.sites
+      }
+    },
+    removeSite(state, action) {
       const id = action.payload;
-      state.sites = state.sites.filter((item:any) => item.id !== id);
+      const sites = {...state.sites}
+      delete sites[id]
+      state.sites = sites
     },
   },
 });
-//get access to all meters
-export const getAllSites = (state: any) => {
-  return (state as any)[REDUCER_NAME].sites;
+//get access to all sites
+export const getAllSites = (state: any): any => {
+  return Object.values((state as any)[REDUCER_NAME].sites || {});
 };
-//get a single meter.
-export const getOneSite = (state: any, id: any) => {
-  return getAllSites(state).find((item: any) => item.id === id);
+//get a single sites.
+export const getSingleSite = (state: any, id: any) => {
+  return (state as any)[REDUCER_NAME].sites[id] || null
 };
 
 

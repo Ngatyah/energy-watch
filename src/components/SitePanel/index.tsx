@@ -1,30 +1,66 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Table, Typography, Button, Space, Row } from "antd";
 import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Link } from "react-router-dom";
-import { ADD_SITE } from "../../constants";
+import { Link, Redirect } from "react-router-dom";
+import { ADD_SITE, LOGIN, SITES_ENDPOINT, SITES_LIST_ENDPOINT } from "../../constants";
 import store from "../../store";
-import { siteActions, getAllSites } from "../../store/sites_slice";
+import { siteActions, getAllSites as getAllSitesList  } from "../../store/sites_slice";
+import { DjangoService } from "../../services/django-api";
+import { getFullSizeName } from "../../utils";
+import { getProfileData } from "../../store/auth_slice";
 
 const SitePanel = () => { 
-  const siteData = useSelector(state => getAllSites(state));
+  const siteData = useSelector(state => getAllSitesList(state));
+  const profileData = useSelector(state => getProfileData(state));
+  const [deletingId, setdeletingId] = useState('');
   const dispatch = useDispatch();
   let { Title } = Typography;
-  const history = useHistory();
+  const history = useHistory()
 
   const onButtonClick = () => {
     history.replace(ADD_SITE);
   };
-  const removeItemHandler = (id: any) => {
-    dispatch(siteActions.removeSiteFromTable(id));
-  };
+
+  const getAllSites = () => {
+    const apService = new DjangoService(SITES_ENDPOINT);
+    apService.list()
+      .then((res) => {
+        dispatch(siteActions.addSites(res));
+      })
+      .catch((err) => {
+        
+        console.log(err);
+      });
+  }
+
+  const softDeleteSite = (siteData: any) => {
+    setdeletingId(siteData.id);
+    const apiService = new DjangoService(SITES_ENDPOINT);
+    apiService
+      .update(`${siteData.id}/`, {...siteData, is_deleted: true })
+      .then((res) => {
+        dispatch(siteActions.removeSite(siteData.id));
+        setdeletingId('');
+      })
+      .catch((err) => {
+        setdeletingId('');
+        console.log(err);
+      }); 
+
+  }
+
+  useEffect(() => {
+    getAllSites()
+  }, [profileData.id])
+  
 
   const columns = [
     {
       title: "Site Id",
       dataIndex: "id",
+      key: "id",
       sorter: {
         compare: (a: any, b: any) => a.name - b.name,
         multiple: 3,
@@ -33,10 +69,13 @@ const SitePanel = () => {
     {
       title: "Site Name",
       dataIndex: "name",
-      sorter: {
-        compare: (a: any, b: any) => a.chinese - b.chinese,
-        multiple: 3,
-      },
+      key: "name"
+    },
+    {
+      title: "Site Size",
+      dataIndex: "size",
+      key: "size",
+      render: ((size:string) => <p>{getFullSizeName(size)}</p>)
     },
     {
       title: "Actions",
@@ -51,7 +90,7 @@ const SitePanel = () => {
               {<EditOutlined style={{ fontSize: "20px", color: "blue" }} />}
             </Link>
           </Button>
-          <Button type="text" onClick={() => removeItemHandler(row.id)}>
+          <Button type="text" loading={deletingId === row.id} onClick={() => softDeleteSite(row)}>
             {<DeleteOutlined style={{ fontSize: "20px", color: "red" }} />}
           </Button>
         </Space>

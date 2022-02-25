@@ -1,43 +1,61 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState } from "react";
-import { Form, Input, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, Button, Select } from "antd";
 import { useHistory } from "react-router-dom";
-import {  METERS_URL, SITES_ENDPOINT,SITES_LIST_ENDPOINT } from "../../constants";
+import { METERS_URL, SITES_ENDPOINT, SITE_URL } from '../../constants';
 import { useParams } from "react-router-dom";
-import { uuid } from "uuidv4";
 import store from "../../store";
-import { getOneSite, siteActions } from "../../store/sites_slice";
+import { getSingleSite, siteActions } from "../../store/sites_slice";
 import { DjangoService } from "../../services/django-api";
 import { getProfileData } from "../../store/auth_slice";
 
+const { Option } = Select;
+
 const SiteForm: React.FunctionComponent<{}> = () => {
-  let initialValues = {};
+  const [form] = Form.useForm();
   const profileData = useSelector(state => getProfileData(state));
   const [loading, setLoading] = useState(false);
   const { id }: { id: string } = useParams();
-  if (id) {
-    const data = getOneSite(store.getState(), id);
-    initialValues = {
-      site_id: data["model"],
-      site_name: data["site"],
-    };
+  const siteData = getSingleSite(store.getState(), id);
+
+  const getOneSite = (id:string) => {
+    const apService = new DjangoService(SITES_ENDPOINT);
+    apService.read(id)
+      .then((res) => {
+        dispatch(siteActions.addSingleSite(res));
+      })
+      .catch((err) => {
+        
+        console.log(err);
+      });
   }
 
+  useEffect(() => {
+    getOneSite(id)
+  }, [profileData.id])
+
+
+  useEffect(() => {
+    if(siteData) {
+      form.setFieldsValue({
+        name: siteData.name,
+        size: siteData.size
+      });
+    }
+  }, [siteData])
+  
+  
   const dispatch = useDispatch();
   const history = useHistory();
   const removeItemHandler = (id: any) => {
-    dispatch(siteActions.removeSiteFromTable(id));
+    dispatch(siteActions.removeSite(id));
   };
-  const onFinish = async (values: any) => {
+
+  const saveSite = async (values: any) => {
     setLoading(true);
-    history.replace(METERS_URL);
-    if (id) {
-      removeItemHandler(id);
-    }
     const apiService = new DjangoService(SITES_ENDPOINT);
-    
     apiService
-      .create({ name: values["site_name"],owner:profileData.id })
+      .create({...values, owner:profileData.id })
       .then((res) => {
         console.log(res);
         setLoading(false);
@@ -45,33 +63,24 @@ const SiteForm: React.FunctionComponent<{}> = () => {
       .catch((err) => {
         setLoading(false);
         console.log(err);
-      });
- const apService = new DjangoService(SITES_LIST_ENDPOINT);
- 
-   apService.list()
-            .then((res) => {
-              console.log(res['results']);
-          for(let i=0;i<res['results'].length;i++){
-
-          console.log(res['results'][i]['id'])
-
-           dispatch(
-      siteActions.addSiteToTable({
-        site: values["site_id"],
-        name: res['results'][i]['name'],
-        id: res['results'][i]['id'],
-        key: uuid(),
-      })
-    );
-          }
-              
-            })
-            .catch((err) => {
-              
-              console.log(err);
-            });
-      
+      });      
   };
+
+  const UpdateSite = async (values: any) => {
+    setLoading(true);
+    const apiService = new DjangoService(SITES_ENDPOINT);
+    apiService
+      .update(`${id}/`, {...siteData, ...values })
+      .then((res) => {
+        console.log(res);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });      
+  };
+
   const formItemLayout = {
     labelCol: {
       xs: { span: 24 },
@@ -92,37 +101,33 @@ const SiteForm: React.FunctionComponent<{}> = () => {
       }}
     >
       <Form
+        form={form}
         {...formItemLayout}
         name="normal_login"
         className="login-form"
-        initialValues={initialValues}
-        onFinish={onFinish}
+        onFinish={id? UpdateSite : saveSite}
       >
         <div>
           <h1 style={{ color: "#008B8B" }}>Add Meter </h1>
           <p> Enter the New Meter Details Here. Fill all the Fields</p>
         </div>
         <Form.Item
-          name="site_id"
-          label="Site Id"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
+          name="name"
+          label="Site Name"
+          rules={[{required: true}]}
         >
-          <Input />
+          <Input/>
         </Form.Item>
         <Form.Item
-          name="site_name"
-          label="Site Name"
-          rules={[
-            {
-              required: true,
-            },
-          ]}
+          name="size"
+          label="Site Size"
+          rules={[{required: true}]}
         >
-          <Input />
+          <Select>
+              <Option value="S">Small</Option>
+              <Option value="M">Medium</Option>
+              <Option value="L">Large</Option>
+          </Select>
         </Form.Item>
         <Form.Item>
           <Button

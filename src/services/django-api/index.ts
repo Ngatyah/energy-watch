@@ -188,7 +188,7 @@ export class DjangoService<PayloadT extends object = Dictionary> {
     method: HTTPMethod = "GET"
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ): Promise<any> {
-    const url = DjangoService.getURL(`${this.generalURL}/${id}`, params);
+    const url = DjangoService.getURL(`${this.generalURL}${id}`, params);
     const response = await customFetch(
       url,
       this.getOptions(this.signal, this.accessToken, method)
@@ -218,7 +218,7 @@ export class DjangoService<PayloadT extends object = Dictionary> {
     params: paramsType = null,
     method: HTTPMethod = "PUT"
   ): Promise<Record<string, unknown>> {
-    const url = DjangoService.getURL(`${this.generalURL}/${id}`, params);
+    const url = DjangoService.getURL(`${this.generalURL}${id}`, params);
     const payload = {
       ...this.getOptions<PayloadT>(this.signal, this.accessToken, method, data),
       "Cache-Control": "no-cache",
