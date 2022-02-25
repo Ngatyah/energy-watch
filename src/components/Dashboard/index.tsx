@@ -28,7 +28,7 @@ const Dashboard: any = (props: any) => {
 
   const addAuthDetailsToStore = (tokenDetails:any, profile:any) => {
     if(!tokenDetails && !profile) {
-      return <Redirect to={LOGIN} />
+      history.replace(LOGIN)
     }
     dispatch(authActions.addAccessData(JSON.parse(tokenDetails)));
     dispatch(authActions.addProfileData(JSON.parse(profile)));
