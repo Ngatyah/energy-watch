@@ -1,5 +1,6 @@
 import {
   BrowserRouter as Router,
+  Redirect,
   Route,
   RouteComponentProps,
   Switch,
@@ -11,16 +12,34 @@ import {
   DashboardOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useHistory } from "react-router-dom";
-import { METERS_URL, GRAPH_URL, SITE_URL } from "../../constants";
+import { METERS_URL, GRAPH_URL, SITE_URL, LOGIN, PROFILE_STORAGE_KEY, TOKEN_STORAGE_KEY } from "../../constants";
 import { dashboardRoutes } from "../../configs/routes";
+import { authActions } from "../../store/auth_slice";
+import { useDispatch } from "react-redux";
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const Dashboard: any = (props: any) => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [collapsed, setCollapsed] = useState(false);
+
+  const addAuthDetailsToStore = (tokenDetails:any, profile:any) => {
+    if(!tokenDetails && !profile) {
+      return <Redirect to={LOGIN} />
+    }
+    dispatch(authActions.addAccessData(JSON.parse(tokenDetails)));
+    dispatch(authActions.addProfileData(JSON.parse(profile)));
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem(TOKEN_STORAGE_KEY);
+    const profile = localStorage.getItem(PROFILE_STORAGE_KEY);
+    addAuthDetailsToStore(token, profile)
+  }, [])
+  
 
   const onCollapse = () => {
     setCollapsed(!collapsed);

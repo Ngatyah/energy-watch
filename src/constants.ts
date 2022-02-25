@@ -20,3 +20,7 @@ export const SITES_ENDPOINT = "/sites/";
 export const SITES_LIST_ENDPOINT = "/sites/all/";
 //ids
 export const CLIENT_ID = "fbaPXGrD6wewVEqoOkJfvierIrYbnROPXMa8CDv5";
+
+// magic strings
+export const PROFILE_STORAGE_KEY = "profile"
+export const TOKEN_STORAGE_KEY = "Token"

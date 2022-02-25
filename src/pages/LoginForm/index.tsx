@@ -9,6 +9,8 @@ import {
   TOKEN_ENDPOINT,
   GRAPH_URL,
   USER_PROFILE_ENDPOINT,
+  TOKEN_STORAGE_KEY,
+  PROFILE_STORAGE_KEY,
 } from "../../constants";
 import { DjangoService } from "../../services/django-api";
 import { useState } from "react";
@@ -43,8 +45,7 @@ const LoginForm: React.FunctionComponent<{}> = () => {
         if (res.status === 200) {
           const data = await res.data;
           const { access_token } = data;
-          console.log(data);
-          console.log(access_token);
+          localStorage.setItem(TOKEN_STORAGE_KEY, JSON.stringify(data));
           dispatch(authActions.addAccessData(data));
           // dispatch auth details to store
           const apiService = new DjangoService(USER_PROFILE_ENDPOINT);
@@ -52,8 +53,9 @@ const LoginForm: React.FunctionComponent<{}> = () => {
             .list()
             .then((res) => {
               console.log(res);
-              setLoading(false);
+              localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(res));
               dispatch(authActions.addProfileData(res));
+              setLoading(false);
             })
             .catch((err) => {
               setLoading(false);
