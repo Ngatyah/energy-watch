@@ -5,9 +5,10 @@ import { Fragment, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { meterActions, getAllMeters } from "../../store/meter-slice";
-import { ADD_METER, METERS_ENDPOINT } from '../../constants';
+import { ADD_METER, METERS_ENDPOINT, ANTD_SUCCESS_NOTIFICATION_TYPE } from '../../constants';
 import { DjangoService } from "../../services/django-api";
 import { getProfileData } from "../../store/auth_slice";
+import { openNotificationWithIcon } from "../../utils";
 
 const MeterPanel = () => {
   const formData:any = useSelector(state => getAllMeters(state));
@@ -36,13 +37,15 @@ const MeterPanel = () => {
       });
   }
 
-  const softDeleteSite = (siteData: any) => {
-    setdeletingId(siteData.id);
+  const softDeleteSite = (meterData: any) => {
+    setdeletingId(meterData.id);
     const apiService = new DjangoService(METERS_ENDPOINT);
     apiService
-      .update(`${siteData.id}/`, {...siteData, is_deleted: true })
+      .update(`${meterData.id}/`, {...meterData, is_deleted: true })
       .then((res) => {
-        dispatch(meterActions.removeMeter(siteData.id));
+        const notificationMsg = `Meter ${meterData.name} successfully deleted`
+        openNotificationWithIcon(ANTD_SUCCESS_NOTIFICATION_TYPE, notificationMsg)
+        dispatch(meterActions.removeMeter(meterData.id));
         setdeletingId('');
       })
       .catch((err) => {

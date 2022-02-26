@@ -1,14 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Table, Typography, Button, Space, Row } from "antd";
+import { Table, Typography, Button, Space, Row, notification } from "antd";
 import { EyeOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { Link, Redirect } from "react-router-dom";
-import { ADD_SITE, LOGIN, SITES_ENDPOINT, SITES_LIST_ENDPOINT } from "../../constants";
+import { ADD_SITE, ANTD_SUCCESS_NOTIFICATION_TYPE, LOGIN, SITES_ENDPOINT, SITES_LIST_ENDPOINT } from "../../constants";
 import store from "../../store";
 import { siteActions, getAllSites as getAllSitesList  } from "../../store/sites_slice";
 import { DjangoService } from "../../services/django-api";
-import { getFullSizeName } from "../../utils";
+import { getFullSizeName, openNotificationWithIcon } from "../../utils";
 import { getProfileData } from "../../store/auth_slice";
 
 const SitePanel = () => { 
@@ -41,6 +41,8 @@ const SitePanel = () => {
     apiService
       .update(`${siteData.id}/`, {...siteData, is_deleted: true })
       .then((res) => {
+        const notificationMsg = `Site ${siteData.name} successfully deleted`
+        openNotificationWithIcon(ANTD_SUCCESS_NOTIFICATION_TYPE, notificationMsg)
         dispatch(siteActions.removeSite(siteData.id));
         setdeletingId('');
       })

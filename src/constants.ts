@@ -22,5 +22,9 @@ export const SITES_LIST_ENDPOINT = "/sites/all/";
 export const CLIENT_ID = "fbaPXGrD6wewVEqoOkJfvierIrYbnROPXMa8CDv5";
 
 // magic strings
-export const PROFILE_STORAGE_KEY = "profile"
-export const TOKEN_STORAGE_KEY = "Token"
+export const PROFILE_STORAGE_KEY = "profile";
+export const TOKEN_STORAGE_KEY = "Token";
+export const ANTD_SUCCESS_NOTIFICATION_TYPE = "success";
+export const ANTD_warning_NOTIFICATION_TYPE = "warning";
+export const ANTD_INFO_NOTIFICATION_TYPE = "info";
+export const ANTD_ERROR_NOTIFICATION_TYPE = "error";

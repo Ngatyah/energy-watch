@@ -1,3 +1,6 @@
+import React from 'react';
+import { Button, notification, Space } from 'antd';
+
 export const listToObject = (listItems: any[], key:string='id') => {
   const newObject:any = {}
   listItems.forEach(item => {
@@ -14,3 +17,10 @@ export const getFullSizeName = (size:string) => {
   if(size === 'S') {return "Small"}
   if(size === 'L') {return "Large"}
 }
+
+export const openNotificationWithIcon = (type:string, message:string, description:string="") => {
+  (notification as any)[type]({
+    message,
+    description
+  });
+};
